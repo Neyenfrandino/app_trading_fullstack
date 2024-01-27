@@ -1,0 +1,217 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url(img/otra3.webp);
+    background-size: 100%;
+    color: wheat;
+    font-family: monospace;
+  }
+
+  .tituloInverciones {
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+    color: #fff;
+    background-color: #4CAF50; /* Verde */
+    border-radius: 20px; /* Ajustado para un aspecto más sutil */
+    padding: 10px;
+}
+
+.contenedor {
+    border: solid #4CAF50; /* Verde */
+    margin: 1%;
+    padding: 1%;
+    border-radius: 20px; /* Ajustado para un aspecto más sutil */
+    width: 48%; /* Ajustado para dar espacio entre contenedores */
+    box-sizing: border-box;
+    float: left;
+}
+
+.contenedor1 {
+    border: solid #4CAF50; /* Verde */
+    margin: 1% 1% 9%;
+    padding: 1%;
+    border-radius: 20px; /* Ajustado para un aspecto más sutil */
+    width: 48%; /* Ajustado para dar espacio entre contenedores */
+    box-sizing: border-box;
+    float: right;
+}
+
+.objetivosLabel,
+.planTradingLabel,
+.notaPersonal {
+    background-color: #4CAF50; /* Verde */
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    max-width: 80%; /* Ajustado para más espacio */
+    margin: 0 auto;
+    text-align: center;
+}
+
+.btnNotaPersonal,
+.btnObjetivos,
+.btnPlanTrading {
+    background-color: #4CAF50; /* Verde */
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s, transform 0.2s;
+    margin: 10px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btnObjetivos:hover,
+.btnPlanTrading:hover,
+.btnNotaPersonal:hover {
+    background-color: #45a049; /* Verde más oscuro */
+    transform: translateY(-2px);
+}
+
+.tablaDeDatos {
+  width: 80%;
+  margin: 20px auto; /* Ajuste para centrar la tabla en la página */
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: rgba(236, 240, 241, 0.7);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #bdc3c7;
+  color: #2c3e50;
+  margin-top: 20px;
+}
+
+
+table, th, td {
+  border: 1px solid #bdc3c7;
+  padding: 10px;
+  text-align: center;
+}
+
+th {
+  background-color: #4CAF50; /* Verde */
+  color: white;
+}
+
+th:hover {
+  background-color: #45a049; /* Verde más oscuro al pasar el mouse */
+}
+
+.filaClickeada {
+  background-color: rgba(236, 240, 241, 0.5);
+}
+
+.btn-modificar::before {
+  content: "\270E";
+  color: blue;
+  font-size: 14px;
+}
+
+.btn-modificar:hover {
+  background-color: #d3dae5;
+  transform: translateY(-2px);
+  cursor: pointer;
+}
+
+.filaSeleccionada {
+  background-color: rgba(68, 68, 59, 0.5);
+}
+
+.btnGuardar,
+.btn_agregas_nueva_entrada {
+  background-color: #4CAF50; /* Verde */
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  right: 100px;
+  margin: 5px;
+}
+
+.btnEliminar {
+  background-color: #f84242;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  right: 100px;
+  margin: 5px;
+}
+
+.btnEliminar:hover {
+  background-color: #7a1b1b;
+  transform: translateY(-2px);
+}
+
+.btnEliminar::before {
+  content: "\2716";
+  margin-right: 0px;
+  font-size: 14px;
+}
+
+.btnGuardar::after {
+  content: "\2713";
+  margin-left: 0px;
+}
+
+.btnGuardar:hover,
+.btn_agregas_nueva_entrada:hover {
+  background-color: #45a049; /* Verde más oscuro al pasar el mouse */
+  transform: translateY(-2px);
+}
+
+.contenedorDivTabla input {
+  width: 100%;
+  border: none;
+  background-color: #ecf0f1;
+}
+
+.btn_resultado,
+.btn_compra_o_venta {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn_resultado:hover,
+.btn_compra_o_venta:hover {
+  background-color: #45a049;
+}
+
+.error_ingresar_dato {
+  border: solid red;
+  background-color: rgba(255, 0, 0, 0.5);
+}
+
+.li_datos {
+  border: solid wheat;
+  color: wheat;
+}
+
+.btnLogout {
+  background-color: #3498db;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btnLogout:hover {
+  background-color: #2980b9;
+}
+
+

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Login</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            background-image: url(img/otra1.jpg); /* Cambia 'bitcoin.jpg' por la ruta de tu imagen de Bitcoin */
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #login-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        #login-container h2 {
+            color: #333;
+        }
+
+        #login-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+
+        #login-container .btn_login {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #login-container{
+            margin-top: 20px;
+            color: #333;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        #btn_login:hover{
+            color: #050505;
+        }
+        
+        .empty {
+            border: 2px solid red; 
+            background-color: #ffcccc;
+        }
+
+        .mensaje_error_usuario{
+            display: none;
+            font-weight: bolder;
+            color: #bd0000;
+        }
+
+        .create-account {
+            margin-top: 20px;
+            color: #333;
+            text-decoration: underline;
+            border: none;
+            background-color:rgba(255, 255, 255, 0.0);
+            cursor: pointer;
+        }
+
+        .create-account:hover{
+            color: orangered;
+        }
+    </style>
+</head>
+<body>
+
+<div id="login-container">
+    <h2>Login</h2>
+    <form>
+        <p class="mensaje_error_usuario" id="mensaje_error_usuario">Usuario Y/o contraseña incorrecta</p>
+        <input id="username_login" type="text" placeholder="Username" required>
+        <input id="password_login" type="password" placeholder="Password" required>
+        <button id="btn_login" class="btn_login" type="submit">Login</button>
+    </form>
+    <button id="create-account" class="create-account">Create a new account</button>
+</div>
+<script type="module" src="app_login.js"></script>
+</body>
+</html>
