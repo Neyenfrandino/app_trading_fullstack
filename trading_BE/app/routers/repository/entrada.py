@@ -8,7 +8,6 @@ from fastapi import HTTPException, status
 def obtener_entradas_por_id(user_id, db:Session):
     data  = db.query(models.Entrada).filter(models.Entrada.usuario_id == user_id).all()
     # usuario  = db.query(models.User).filter(models.User.id == user_id).first()
-
     return data
 
 
@@ -28,7 +27,7 @@ def add_entrada(user_id, modelo, db:Session):
         nueva_entrada = models.Entrada(
             objetivos_plan_id= objetivo_plan.id,
             usuario_id= usuario.id,
-            moneda_id= 1,
+            moneda_id=  entrada_data['moneda_id'],
             punto_entrada= entrada_data['punto_entrada'],
             stop_loss= entrada_data['stop_loss'],
             take_profit= entrada_data['take_profit'],

@@ -4,6 +4,7 @@ from app.db import models
 from fastapi import HTTPException, status
 from app.hashing import Hash 
 from app.token import create_access_token
+from app.routers.repository import entrada
 
 def auth_user(usuario, db:Session):
     user = db.query(models.User).filter(models.User.username == usuario.username).first()
@@ -20,4 +21,6 @@ def auth_user(usuario, db:Session):
     access_token = create_access_token(
         data = {'sub': usuario.username}
     )
-    return{'access token': access_token, 'token_type':'bearer', 'user_id': user.id}	
+    entradas = entrada.obtener_entradas_por_id(user.id, db) 
+
+    return{'access token': access_token, 'token_type':'bearer', 'user_id': user.id, 'data_entrada': entradas}	

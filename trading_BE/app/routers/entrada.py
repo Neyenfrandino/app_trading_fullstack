@@ -20,8 +20,9 @@ router = APIRouter(prefix='/entrada',
 def obtener_entradas_id(user_id: int, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     data = entrada.obtener_entradas_por_id(user_id, db)
     return data 
+    pass
 
-@router.post('/user_id', status_code=status.HTTP_201_CREATED)
+@router.post('/add/user_id/{user_id}', status_code=status.HTTP_201_CREATED)
 def add_entrada(user_id:int, modelo:Entrada, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     respuesta = entrada.add_entrada(user_id, modelo, db)
     return respuesta
