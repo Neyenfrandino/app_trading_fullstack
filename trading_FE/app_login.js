@@ -1,4 +1,3 @@
-
 export async function login(auth) {
     try {
         let formData = new FormData();
@@ -17,12 +16,17 @@ export async function login(auth) {
         let data = await response.json();
         let access_token = data['access token'];
         let usuario = data['user_id']
+        let datos_entrada = data['data_entrada'] 
         
+        // Almacena el array completo en localStorage
+        localStorage.setItem('entradas', JSON.stringify(datos_entrada));    
         localStorage.setItem('accessToken', access_token);
         localStorage.setItem('user_id', usuario);
+
         if (response.ok) {
             window.location.href = 'http://127.0.0.1:5500/trading_FE/index.html';
         }
+
     } catch (error) {
         console.error('Algo salió mal al crear el registro: ', error);
         let username_login = document.getElementById('username_login');
@@ -106,6 +110,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     })
 });
+
+
+
 
 
 
