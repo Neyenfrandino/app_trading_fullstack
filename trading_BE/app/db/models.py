@@ -70,7 +70,7 @@ class Entrada(Base):
     take_profit = Column(Float, nullable=False)
     riesgo_beneficio = Column(Float, nullable=False)
     lotage = Column(Float, nullable=False)
-    resultado_usdt = Column(Float)
+    resultado_usdt = Column(Float, nullable=False)
     compra_venta = Column(Boolean, nullable=False)
     fecha_creacion = Column(DateTime, default=datetime.now, onupdate=datetime.now)
     

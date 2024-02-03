@@ -31,6 +31,7 @@ def add_entrada(user_id, modelo, db:Session):
             punto_entrada= entrada_data['punto_entrada'],
             stop_loss= entrada_data['stop_loss'],
             take_profit= entrada_data['take_profit'],
+            resultado_usdt= entrada_data['resultado_usdt'],
             riesgo_beneficio= entrada_data['riesgo_beneficio'],
             lotage= entrada_data['lotage'],
             compra_venta= entrada_data['compra_venta'],

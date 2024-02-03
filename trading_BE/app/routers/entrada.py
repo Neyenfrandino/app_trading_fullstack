@@ -33,7 +33,7 @@ def actualizar_entrada(user_id: int, num_entrada:int, UpdateEntrada: UpdateEntra
     respuesta = entrada.actualizar_entrada(user_id, num_entrada, UpdateEntrada, db)
     return respuesta
 
-@router.delete('/{user_id}/{num_entrada}')
+@router.delete('/eliminar_entrada/{user_id}/{num_entrada}')
 def eliminar_entrada(user_id: int, num_entrada: int, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     respuesta = entrada.eliminar_entrada(user_id,num_entrada, db)
     return respuesta
