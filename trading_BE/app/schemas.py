@@ -94,6 +94,9 @@ class UpdateEntrada(BaseModel):
     riesgo_beneficio: float = None
     lotage: float = None
     compra_venta : bool = None 
+    moneda_id : int = None
+    resultado_usdt: int = None
+    fecha_creacion: datetime=datetime.now()
 
 class UpdateCantidadMoneda(BaseModel):
     cantidad: float = None

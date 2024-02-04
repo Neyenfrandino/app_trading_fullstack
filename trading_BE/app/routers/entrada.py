@@ -28,7 +28,7 @@ def add_entrada(user_id:int, modelo:Entrada, db:Session = Depends(get_db), curre
     return respuesta
 
 
-@router.patch('/user_id /num_entrada')
+@router.patch('/modificar_entradas/{user_id}/{num_entrada}')
 def actualizar_entrada(user_id: int, num_entrada:int, UpdateEntrada: UpdateEntrada, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     respuesta = entrada.actualizar_entrada(user_id, num_entrada, UpdateEntrada, db)
     return respuesta

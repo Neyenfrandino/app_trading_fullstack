@@ -35,7 +35,7 @@ def add_entrada(user_id, modelo, db:Session):
             riesgo_beneficio= entrada_data['riesgo_beneficio'],
             lotage= entrada_data['lotage'],
             compra_venta= entrada_data['compra_venta'],
-            fecha_creacion= datetime.now(),
+            # fecha_creacion= datetime.now(),
         )
 
         db.add(nueva_entrada)
@@ -72,6 +72,10 @@ def actualizar_entrada(user_id,num_entrada, UpdateEntrada, db: Session):
             entrada.riesgo_beneficio = UpdateEntrada.riesgo_beneficio
             entrada.lotage = UpdateEntrada.lotage
             entrada.compra_venta = UpdateEntrada.compra_venta
+            entrada.moneda_id = UpdateEntrada.moneda_id
+            entrada.resultado_usdt = UpdateEntrada.resultado_usdt
+            # entrada.fecha_creacion = UpdateEntrada.fecha_creacion
+            
         else:
             raise HTTPException(status_code=status.HTTP_409_CONFLICT, 
                             detail={"message": "Entrada no encontrada para el usuario"} ) 

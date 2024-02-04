@@ -21,6 +21,7 @@ def auth_user(usuario, db:Session):
     access_token = create_access_token(
         data = {'sub': usuario.username}
     )
-    entradas = entrada.obtener_entradas_por_id(user.id, db) 
+    entradas = entrada.obtener_entradas_por_id(user.id, db)
+
 
     return{'access token': access_token, 'token_type':'bearer', 'user_id': user.id, 'data_entrada': entradas}	
