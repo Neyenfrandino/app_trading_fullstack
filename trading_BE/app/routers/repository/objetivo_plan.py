@@ -3,8 +3,10 @@ from sqlalchemy.orm import Session
 from app.db import models
 from fastapi import HTTPException, status
 
-def obtener_objetivo_plan(db):
-    data  = db.query(models.ObjetivoPlan).all()
+def obtener_objetivo_plan(user_id, db):
+    # data  = db.query(models.ObjetivoPlan).all()
+    data  = db.query(models.ObjetivoPlan).filter(models.ObjetivoPlan.usuario_id == user_id).all()
+
     return data
     
 

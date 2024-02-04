@@ -17,13 +17,13 @@ router = APIRouter(prefix='/objetivo_plan',
 # def ruta1():
 #     return {'message': 'Hola Mundo'}
 
-@router.get('/')
-def obtener_objetivo_plan(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    data = objetivo_plan.obtener_objetivo_plan(db)
+@router.get('/{user_id}')
+def obtener_objetivo_plan(user_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    data = objetivo_plan.obtener_objetivo_plan(user_id, db)
     return data
 
 #Creamos una api donde vamos a agregar por el momento los usuarios a una lista 
-@router.post('/user_id', status_code= status.HTTP_201_CREATED )
+@router.post('/add_objetivo/{user_id}', status_code= status.HTTP_201_CREATED )
 def add_objetivo(user_id: int, models:Objetivo_plan, db:Session = Depends(get_db),current_user: User = Depends(get_current_user)):
     respuesta = objetivo_plan.add_objetivo(user_id, models, db)
     return respuesta

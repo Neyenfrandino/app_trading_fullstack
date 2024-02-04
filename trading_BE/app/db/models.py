@@ -52,7 +52,7 @@ class ObjetivoPlan(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     usuario_id = Column(Integer, ForeignKey('usuarios.id'))
     objetivo_principal = Column(String, nullable=False)
-    plan = Column(String, nullable=False)
+    plan = Column(String)
     fecha_creacion = Column(DateTime, default=datetime.now, onupdate=datetime.now)
 
     usuario = relationship('User', back_populates='objetivo_plan')
