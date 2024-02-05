@@ -1,4 +1,4 @@
-export async function login(auth) {
+async function login(auth) {
     try {
         let formData = new FormData();
         formData.append('username', auth.username);
@@ -17,6 +17,10 @@ export async function login(auth) {
         let access_token = data['access token'];
         let usuario = data['user_id']
         let datos_entrada = data['data_entrada'] 
+        let id_entradas = data['id_entradas']
+
+        console.log(id_entradas)
+        console.log(usuario)
         
         // Almacena el array completo en localStorage
         localStorage.setItem('entradas', JSON.stringify(datos_entrada));    
@@ -25,6 +29,7 @@ export async function login(auth) {
 
         if (response.ok) {
             window.location.href = 'http://127.0.0.1:5500/trading_FE/index.html';
+            // console.log(response.json())
         }
 
     } catch (error) {
@@ -45,6 +50,7 @@ export async function login(auth) {
     
 }
 
+
   
 //   // la asignamos la funcion de peticion a una variavle.
 //  let promesa = login();
@@ -52,7 +58,7 @@ export async function login(auth) {
 //  console.log(data)
 // })
 
-export function datos_login(){
+function datos_login(){
     let username_login = document.getElementById('username_login');
     let password_login = document.getElementById('password_login');
     // console.log(username_login, password_login);
@@ -87,13 +93,13 @@ export function datos_login(){
 }
 
 
-document.addEventListener('DOMContentLoaded', () => {
-    
+
+ window.document.addEventListener('DOMContentLoaded', () => {
     let btn_login = document.getElementById('btn_login');
     btn_login.addEventListener('click', async (event) => {
     event.preventDefault();
     try {
-        let auth = datos_login();
+        let auth = await datos_login();
         await login(auth);
     } catch (error) {
         console.error('Error en el evento click del botón de login: ', error);
@@ -112,8 +118,17 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-
-
+// Esta funcion cierra la la seccion de usuario actual
+export function logout() {
+    if (localStorage.getItem('accessToken')) {
+        localStorage.removeItem('accessToken');
+        console.log('Token de acceso eliminado correctamente.');
+        window.location.href = 'http://127.0.0.1:5500/trading_FE/Index_login.html';
+    } else {
+        console.log('No hay token de acceso para eliminar.');
+    }
+}
+  
 
 
 

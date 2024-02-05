@@ -1,20 +1,16 @@
 body {
-    margin: 0;
-    padding: 0;
-    background-image: url(img/otra3.webp);
-    background-size: 100%;
-    color: wheat;
-    font-family: monospace;
-  }
-
-  .tituloInverciones {
-    text-align: center;
-    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
-    color: #fff;
-    background-color: #4CAF50; /* Verde */
-    border-radius: 20px; /* Ajustado para un aspecto más sutil */
-    padding: 10px;
+  font-family: 'Courier New', Courier, monospace;
+  background: linear-gradient(to right, #1b2024, #072437); /* Fondo con gradiente */
+  color: #292a31;
+  margin: 0;
+  padding: 0;
+  transition: background 0.3s ease; /* Agregamos una transición al fondo */
 }
+
+body:hover {
+  background: linear-gradient(to right, #0d4625, #0b0f0c); /* Cambio de color al pasar el mouse */
+}
+
 
 .contenedor {
     border: solid #4CAF50; /* Verde */
@@ -36,7 +32,6 @@ body {
     float: right;
 }
 
-.objetivosLabel,
 .planTradingLabel,
 .notaPersonal {
     background-color: #4CAF50; /* Verde */
@@ -49,7 +44,6 @@ body {
 }
 
 .btnNotaPersonal,
-.btnObjetivos,
 .btnPlanTrading {
     background-color: #4CAF50; /* Verde */
     color: #fff;
@@ -65,64 +59,51 @@ body {
     justify-content: center;
 }
 
-.btnObjetivos:hover,
+
 .btnPlanTrading:hover,
 .btnNotaPersonal:hover {
     background-color: #45a049; /* Verde más oscuro */
     transform: translateY(-2px);
 }
 
+
+/* -------------------------------------------------------tabla-------------------------------------------------------------------- */
 .tablaDeDatos {
   width: 80%;
-  margin: 20px auto; /* Ajuste para centrar la tabla en la página */
+  /* margin: 20px auto; Ajuste para centrar la tabla en la página */
   border-collapse: separate;
   border-spacing: 0;
-  background-color: rgba(236, 240, 241, 0.7);
+  background-color: rgba(0, 128, 255, 0.1); /* Azul */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border: 1px solid #bdc3c7;
-  color: #2c3e50;
-  margin-top: 20px;
+  border: 1px solid #007BFF; /* Azul */
+  color: #f2eded; /* Negro */
+  /* margin-top: 20px; */
 }
 
-
 table, th, td {
-  border: 1px solid #bdc3c7;
+  border: 1px solid #007BFF; /* Azul */
   padding: 10px;
   text-align: center;
 }
 
 th {
-  background-color: #4CAF50; /* Verde */
+  background-color: rgba(40, 167, 69, 0.3); /* Verde */
   color: white;
 }
 
 th:hover {
-  background-color: #45a049; /* Verde más oscuro al pasar el mouse */
+  background-color: #218838; /* Verde más oscuro al pasar el mouse */
 }
 
-.filaClickeada {
-  background-color: rgba(236, 240, 241, 0.5);
-}
 
-.btn-modificar::before {
-  content: "\270E";
-  color: blue;
-  font-size: 14px;
-}
-
-.btn-modificar:hover {
-  background-color: #d3dae5;
-  transform: translateY(-2px);
-  cursor: pointer;
-}
-
-.filaSeleccionada {
-  background-color: rgba(68, 68, 59, 0.5);
+button.btn-primary {
+  background-color: black; /* Reemplaza "tu-color-preferido" con el color que desees */
+  color: #fff; /* Cambia el color del texto si es necesario */
 }
 
 .btnGuardar,
 .btn_agregas_nueva_entrada {
-  background-color: #4CAF50; /* Verde */
+  background-color:rgba(40, 167, 69, 0.3); ; /* Verde */
   color: white;
   border: none;
   padding: 5px 10px;
@@ -131,31 +112,7 @@ th:hover {
   font-size: 14px;
   display: flex;
   right: 100px;
-  margin: 5px;
-}
-
-.btnEliminar {
-  background-color: #f84242;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  display: flex;
-  right: 100px;
-  margin: 5px;
-}
-
-.btnEliminar:hover {
-  background-color: #7a1b1b;
-  transform: translateY(-2px);
-}
-
-.btnEliminar::before {
-  content: "\2716";
-  margin-right: 0px;
-  font-size: 14px;
+  margin: 15px;
 }
 
 .btnGuardar::after {
@@ -169,13 +126,57 @@ th:hover {
   transform: translateY(-2px);
 }
 
-.contenedorDivTabla input {
-  width: 100%;
-  border: none;
-  background-color: #ecf0f1;
+/* -------------------------------------------------------tabla-------------------------------------------------------------------- */
+
+
+.filaClickeada {
+  background-color: rgba(236, 240, 241, 0.5);
 }
 
-.btn_resultado,
+/* -------------------------------------------------------botones crud tabla-------------------------------------------------------------------- */
+
+.btn_modificar::before {
+  content: "\270E";
+  color: blue;
+  font-size: 20px;
+}
+
+.btn_modificar:hover {
+  background-color: #d3dae5;
+  transform: translateY(-2px);
+  cursor: pointer;
+}
+
+
+.btnEliminar {
+  background-color: #f84242;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  right: 100px;
+  margin: 10px;
+  margin-left: 17px;
+}
+
+.btnEliminar:hover {
+  background-color: #7a1b1b;
+  transform: translateY(-2px);
+}
+
+.btnEliminar::before {
+  content: "\2716";
+  margin-right: 0px;
+  font-size: 14px;
+}
+
+/* -------------------------------------------------------botones crud tabla-------------------------------------------------------------------- */
+
+
+.btn_moneda_cryto,
 .btn_compra_o_venta {
   background-color: #4CAF50;
   color: white;
@@ -185,7 +186,7 @@ th:hover {
   cursor: pointer;
 }
 
-.btn_resultado:hover,
+.btn_moneda_cryto:hover,
 .btn_compra_o_venta:hover {
   background-color: #45a049;
 }
@@ -200,20 +201,186 @@ th:hover {
   color: wheat;
 }
 
+
+/* -------------------------------------------------------boton logout-------------------------------------------------------------------- */
 .btnLogout {
-  background-color: #3498db;
+  background-color: #090909;
   color: #fff;
   padding: 10px 20px;
-  border: none;
+  border: solid 1px blue;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
 }
 
 .btnLogout:hover {
-  background-color: #2980b9;
+  background-color:#0e56c1;
+}
+/* -------------------------------------------------------boton logout-------------------------------------------------------------------- */
+
+
+
+/* -------------------------------------------------------encabezado titulo-------------------------------------------------------------------- */
+
+#div_menu_encabezado {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background: linear-gradient(to right, #3498db, #080249);
+  color: rgba(0, 0, 0, 0.0);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 100px;
+}
+
+.tituloInversiones {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #3498db;
+  background-color: #101617;
+  padding: 20px;
+  padding-right: 80px;
+  margin: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+  margin: 20px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 100px;
+}
+
+.tituloInversiones:hover {
+  background-color:rgba(52, 152, 219, 0.1);
+  color: #fff;
+  /* animation: bounce 0.5s ease; Agregamos una animación al pasar el mouse */
+}
+/* -------------------------------------------------------encabezado titulo-------------------------------------------------------------------- */
+
+
+
+/* -------------------------------------------------------menu titulo-------------------------------------------------------------------- */
+
+#nav-tab {
+  margin-top: 30px;
+  margin-left: 10px;
+}
+.tab-content>.active {
+  display: block;
+  color: white;
+}
+
+#nav-home-tab a{
+  color: black;
+}
+#div_menu_encabezado #nav-tab .nav-link {
+  color: #000; /* Cambia este valor al color deseado para los botones no activos */
+  
+}
+
+#div_menu_encabezado .nav {
+  display: flex;
+  flex-wrap: nowrap; /* Evita que los elementos se envuelvan a la siguiente línea */
+  justify-content: flex-start;
+  margin-top: 30px; /* Puedes ajustar el valor según sea necesario */
 }
 
 
+/* -------------------------------------------------------menu titulo-------------------------------------------------------------------- */
 
 
+/* -------------------------------------------------------tarjeta objetivo-------------------------------------------------------------------- */
+
+
+.contenedor {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: rgba(233, 244, 211, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.contenedor:hover{
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+
+}
+.nav_item{
+  background-color: #007BFF;
+}
+.objetivosLabel{
+  background-color: rgba(76, 175, 80, 0.5); 
+  color: #000000;
+  padding: 5px 10px;
+  border-top-left-radius: 100px;
+  border-top-right-radius: 100px; 
+  max-width: 80%; 
+  font-weight: bolder;
+  margin: 10px auto;
+  text-align: center;
+}
+
+.parrafo_objetivo{
+  color: wheat;
+  margin-bottom: 1px;
+}
+
+.btnObjetivos {
+  background-color: rgba(76, 175, 80, 0.5); 
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s, transform 0.2s;
+  margin: 10px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+     
+}
+
+.btnObjetivos:hover {
+    background-color: #0a2410;
+    transform: translateY(-2px);
+
+}
+
+
+.boton_guardar_objetivos{
+  background-color: rgba(76, 175, 80, 0.5); 
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 10px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, transform 0.2s;
+
+  
+}
+
+.boton_guardar_objetivos::before {
+  content: '\2713'; /* Código Unicode para la marca de verificación (check mark) */
+  font-size: 15px; /* Ajusta el tamaño según tus preferencias */
+  font-weight: bold;
+  margin-right: 5px; /* Espacio entre el ícono y el texto */
+
+}
+.boton_guardar_objetivos:hover{
+  background-color: #0a2410;
+  transform: translateY(-2px);
+}
+
+.input_agregar_objetivos{
+  background-color: rgba(230, 222, 222, 0.1);
+  width: 100%;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+
+/* -------------------------------------------------------tarjeta objetivo-------------------------------------------------------------------- */

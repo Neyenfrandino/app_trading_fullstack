@@ -3,44 +3,109 @@
 <head>
     <title>Eres rentable maestro</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
 </head>
 <body>
-    <h2 class="tituloInverciones">"Documentación de Inversiones"</h2>
 
-    <div class="content">
-    <div class="rotating-image"></div>
+   
+     
+<div id="div_menu_encabezado">
+    <h2 class="tituloInversiones" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMenu" aria-expanded="false" aria-controls="collapseMenu">
+      "Documentación de Inversiones"
+    </h2>
 
+
+
+
+
+    <div style="min-height: 120px;">
+      <div class="collapse collapse-horizontal" id="collapseMenu">
+        <div class="div_menu_encabezado" style="width: 600px;">
+          <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+              <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button>
+              <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>
+              <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>
+              <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>
+              <button class="nav-link" id="btnLogout" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Cerrar Sesión</button>
+            </div>
+          </nav>
+          <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+              <p>Contenido de Home</p>
+            </div>
+            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+              <p>Contenido de Profile</p>
+            </div>
+            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">
+              <p>Contenido de Contact</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   
+      
 
-
-    <div id="contenedor" class="contenedor">
-        <label for="objetivo" >
-            <p id="objetivosLabel" class="objetivosLabel">Objetivo:</p>
-            <ul id="listaObjetivos">
-                
-            </ul>
-            <button id="btnObjetivos" class="btnObjetivos">Agregar objetivos</button>
-        </label>
+    
+  <div id="contenedor" class="contenedor">
+    <ul class="nav nav-tabs">
+      <li class="nav_item">
+        <button class="nav-link active" aria-current="page" href="#">Active</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" href="#">Link</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" href="#">Link</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" aria-disabled="true">Disabled</button>
+      </li>
+    </ul>
+    <div id="objetivo_id">
+        <p id="objetivosLabel" class="objetivosLabel">Objetivo:</p>
+        
     </div>
+        <button id="btnObjetivos" class="btnObjetivos">Agregar objetivos</button>
 
-    <div id="contenedor1" class="contenedor1">
-        <label for="planTradingLabel">
-            <p id="planTradingLabel" class="planTradingLabel">Plan de Trading:</p>
-            <ul id="listaPlanTrading">
-                
-            </ul>
-            <button id="btnPlanTrading" class="btnPlanTrading">Agregar plan de trading</button>
-        </label>
-    </div>
+</div>
 
-    <div id="contenedorDivTabla" class="contenedorDivTabla">
+  <!-- <div id="contenedor1" class="contenedor1">
+      <label for="planTradingLabel">
+          <p id="planTradingLabel" class="planTradingLabel">Plan de Trading:</p>
+          <ul id="listaPlanTrading">
+              
+          </ul>
+          <button id="btnPlanTrading" class="btnPlanTrading">Agregar plan de trading</button>
+      </label>
+  </div> -->
 
-        <table id="table">
 
-        </table>
-    </div>
 
-    <div class="contenedor1">
+  <section>
+      <p>
+          <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample" style="margin-bottom: -16px;">
+              Ver entradas 
+          </button>
+      </p>
+      <div style="min-height: 120px;">
+          <div class="collapse collapse-horizontal" id="collapseWidthExample">
+              <div class="contenedorDivTabla" id="contenedorDivTabla" style="width: 1500px;">
+                  <table id="table" class="tablaDeDatos">
+  
+                  </table>
+              </div>
+          </div>          
+      </div>
+  </section>
+  
+  <script src="app-s.js" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script></body>
+
+ <!-- <div class="contenedor1">
         <label for="notaPersonal">
             <p id="notaPersonal" class="notaPersonal">Notas Personales:</p>
             <ul id="listaNotaPersonal">
@@ -55,13 +120,7 @@
             </ul>
             <button id="btnNotaPersonal" class="btnNotaPersonal">Agregar nota Personal</button>
         </label>
-    </div>
-
-    <button id="btnLogout" class="btnLogout">Cerrar Sesión</button>
-
-  
-    <script src="app-s.js" type="module"></script>
-
+    </div> -->
       
       
 </body>
