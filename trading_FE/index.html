@@ -53,25 +53,36 @@
   <div id="contenedor" class="contenedor">
     <ul class="nav nav-tabs">
       <li class="nav_item">
-        <button class="nav-link active" aria-current="page" href="#">Active</button>
+        <button class="nav-link" id="btn_vista" aria-current="page">Vista activada</button>
+      </li>
+      <li class="nav-item">
+        <div class="dropdown">
+          <button class="nav-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Mas opciones <span class="menu_mas_opciones">&vellip;</span>
+          </button>
+          <ul class="dropdown-menu ">
+            <li>
+              <button class="nav-link" id="btn_update" type="button">
+              Modificar <span>&#9998;</span>
+              </button></li>
+            <li><button class="nav-link" aria-current="true" type="button">
+              Eliminar <span>&#10006;</span>
+              </button></li>
+          </ul>
+        </div>
       </li>
       <li class="nav-item">
         <button class="nav-link" href="#">Link</button>
       </li>
-      <li class="nav-item">
-        <button class="nav-link" href="#">Link</button>
-      </li>
-      <li class="nav-item">
-        <button class="nav-link" aria-disabled="true">Disabled</button>
-      </li>
+      <!-- <li class="nav-item">
+        <button class="nav-link" id="btn_objetivo_id_desactivado" aria-disabled="true">Vista Desactivada</button>
+      </li> -->
     </ul>
     <div id="objetivo_id">
         <p id="objetivosLabel" class="objetivosLabel">Objetivo:</p>
-        
     </div>
         <button id="btnObjetivos" class="btnObjetivos">Agregar objetivos</button>
-
-</div>
+  </div>
 
   <!-- <div id="contenedor1" class="contenedor1">
       <label for="planTradingLabel">
@@ -87,13 +98,13 @@
 
   <section>
       <p>
-          <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample" style="margin-bottom: -16px;">
+          <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
               Ver entradas 
           </button>
       </p>
       <div style="min-height: 120px;">
           <div class="collapse collapse-horizontal" id="collapseWidthExample">
-              <div class="contenedorDivTabla" id="contenedorDivTabla" style="width: 1500px;">
+              <div class="contenedorDivTabla" id="contenedorDivTabla" style="width: 150px;">
                   <table id="table" class="tablaDeDatos">
   
                   </table>

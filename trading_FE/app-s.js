@@ -23,7 +23,7 @@ import { read_objetivos_db } from "./objetivo_plan.js";
 //     } catch (error) {
 //       console.error('Ocurrió un error al obtener la información:', error);
 //     }
-//   }
+//}
  
 async function get_informacion_entrada_db(){
     try{
@@ -123,7 +123,6 @@ async function modificar_entrada(datos, num_entrada) {
     console.error('Algo salió mal al crear el registro:', error.message);
   }
 }
-
 
 // Esta funcion es para agregar datos de entradas.
 async function insertarDatos(datos) {
@@ -368,33 +367,31 @@ class Tabla {
                   // Convertir NodeList a un array
                   let filasArray = Array.from(filas);
 
-
                   let indiceFilaClickeada = filasArray.indexOf(Event.target.closest('tr'));
                   // console.log (indiceFilaClickeada)
 
                   let id_entrada = listaDatos[indiceFilaClickeada -1]['id']
 
+                  let datos = boton_guardar_datos(filasArray[indiceFilaClickeada], this.datosRequeridosInsetTabla, 'celdaCorrespondiente')
+                  if(datos){
+
+                    let datos_peticion = {
+                      'punto_entrada': this.datosRequeridosInsetTabla['punto_entrada'],
+                      'stop_loss': this.datosRequeridosInsetTabla['stop_loss'],
+                      'take_profit': this.datosRequeridosInsetTabla['take_profit'],
+                      'riesgo_beneficio': this.datosRequeridosInsetTabla['riesgo_beneficio'],
+                      'lotage': this.datosRequeridosInsetTabla['lotage'],
+                      'resultado_usdt': this.datosRequeridosInsetTabla['resultado_usdt'],
+                      'compra_venta': this.datosRequeridosInsetTabla['compra_venta'],
+                      'moneda_id': this.datosRequeridosInsetTabla['moneda_id'],
+                      // "fecha_creacion": this.datosRequeridosInsetTabla['fecha_creacion']
                       
-                    let datos = boton_guardar_datos(filasArray[indiceFilaClickeada], this.datosRequeridosInsetTabla, 'celdaCorrespondiente')
-                    if(datos){
 
-                      let datos_peticion = {
-                        'punto_entrada': this.datosRequeridosInsetTabla['punto_entrada'],
-                        'stop_loss': this.datosRequeridosInsetTabla['stop_loss'],
-                        'take_profit': this.datosRequeridosInsetTabla['take_profit'],
-                        'riesgo_beneficio': this.datosRequeridosInsetTabla['riesgo_beneficio'],
-                        'lotage': this.datosRequeridosInsetTabla['lotage'],
-                        'resultado_usdt': this.datosRequeridosInsetTabla['resultado_usdt'],
-                        'compra_venta': this.datosRequeridosInsetTabla['compra_venta'],
-                        'moneda_id': this.datosRequeridosInsetTabla['moneda_id'],
-                        // "fecha_creacion": this.datosRequeridosInsetTabla['fecha_creacion']
-                        
-
-                    };
-                    
-                      modificar_entrada(datos_peticion, id_entrada)
-                      location.reload()
-                    }
+                  };
+                  
+                    modificar_entrada(datos_peticion, id_entrada)
+                    location.reload()
+                  }
                 })                
             })
               fila.appendChild(boton_momdificar)
@@ -531,8 +528,6 @@ class Add_info_tabla{
 
 let btn_logout =  document.getElementById('btnLogout')
 btn_logout.addEventListener('click', logout);
-
-
 
 let tabla = new Tabla(promesa);
 tabla.tituloEncabezados();

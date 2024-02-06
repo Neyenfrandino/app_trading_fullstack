@@ -20,6 +20,7 @@ body:hover {
     width: 48%; /* Ajustado para dar espacio entre contenedores */
     box-sizing: border-box;
     float: left;
+    
 }
 
 .contenedor1 {
@@ -99,6 +100,12 @@ th:hover {
 button.btn-primary {
   background-color: black; /* Reemplaza "tu-color-preferido" con el color que desees */
   color: #fff; /* Cambia el color del texto si es necesario */
+  margin-top: 25%;
+  margin-left: -670px;
+}
+
+.contenedorDivTabla{
+  margin-bottom: 5%;
 }
 
 .btnGuardar,
@@ -302,9 +309,10 @@ button.btn-primary {
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
 
 }
-.nav_item{
+/* .nav_item{
   background-color: #007BFF;
-}
+  border-radius: 50px;
+} */
 .objetivosLabel{
   background-color: rgba(76, 175, 80, 0.5); 
   color: #000000;
@@ -335,8 +343,6 @@ button.btn-primary {
   display: flex;
   align-items: center;
   justify-content: center;
-
-     
 }
 
 .btnObjetivos:hover {
@@ -344,7 +350,6 @@ button.btn-primary {
     transform: translateY(-2px);
 
 }
-
 
 .boton_guardar_objetivos{
   background-color: rgba(76, 175, 80, 0.5); 
@@ -381,6 +386,94 @@ button.btn-primary {
   margin-top: 10px;
   border-radius: 5px;
 }
+
+.dropdown-menu{
+ background-color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.objetivo_id_desactivado{
+  display: none;
+}
+.objetivo_id_activado{
+  display: block;
+}
+
+.menu_mas_opciones{
+  font-weight: bolder;
+  color: black;
+}
+
+
+
+.resaltar-elemento {
+  border: 2px solid #3498db;
+  background-color:rgba(0, 0, 0, 0.5);
+  transition: background-color 0.5s ease;
+}
+
+.btnCancelar {
+  background-color: rgba(76, 175, 80, 0.5); 
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s, transform 0.2s;
+  margin: 10px auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.btnCancelar {
+  background-color: #f84242;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  right: 100px;
+  margin: 10px;
+  margin-left: 17px;
+}
+
+.btnCancelar:hover {
+  background-color: #7a1b1b;
+  transform: translateY(-2px);
+}
+
+.btnCancelar::before {
+  content: "\2716";
+  margin-right: 0px;
+  font-size: 14px;
+}
+
+
+
+.boton_guadar_update {
+  background-color:rgba(40, 167, 69, 0.3); ; /* Verde */
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  right: 100px;
+  margin: 5px;
+  margin-left: 70px;
+}
+
+.boton_guadar_update::after {
+  content: "\2713";
+  margin-left: 0px;
+}
+
+.boton_guadar_update:hover {
+  background-color: #45a049; /* Verde más oscuro al pasar el mouse */
+  transform: translateY(-2px);
+}
+
 
 
 /* -------------------------------------------------------tarjeta objetivo-------------------------------------------------------------------- */
