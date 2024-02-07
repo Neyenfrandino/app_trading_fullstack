@@ -55,14 +55,17 @@ def actualizar_objetivo_plan(user_id, num_objetivo_plan, UpdateObjetivoPlan, db:
     
    
     
-# def eliminar_objetivo_plan(user_id, db:Session):
-#     usuario = db.query(models.User).filter(models.User.id == user_id)
-#     nota = db.query(models.ObjetivoPlan).filter(models.ObjetivoPlan.usuario_id == user_id)
+def eliminar_objetivo_plan(user_id, num_objetivo_delete, db:Session):
+    usuario = db.query(models.User).filter(models.User.id == user_id)
 
-#     if not usuario.first():
-#         return {'Message': 'no encontrada'}
+    if not usuario.first():
+        return {'Message': 'no encontrada'}
+    
+    nota = db.query(models.ObjetivoPlan).filter(models.ObjetivoPlan.id == num_objetivo_delete).first()
+    print(nota)
 
-#     if nota:
-#         nota.delete(synchronize_session=False)
-#         db.commit() 
-#         return {'Message': 'Se ha eliminado correctamente'}
+    if nota:
+        # nota.delete(synchronize_session=False)
+        db.delete(nota)
+        db.commit() 
+        return {'Message': 'Se ha eliminado correctamente'}

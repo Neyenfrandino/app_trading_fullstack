@@ -1,4 +1,3 @@
-// read objetivos
 export async function read_objetivos_db(){
     try{
         let token = localStorage.getItem('accessToken');
@@ -104,6 +103,38 @@ async function update_objetivos(datos ,num_objetivo_plan){
     }
 }
 
+async function delete_objetivos(datos) {
+    try {
+        let token = localStorage.getItem('accessToken');
+        let usuario = localStorage.getItem('user_id');
+
+        console.log(datos);
+
+        if (!token) {
+            throw new Error('No se encontró el token de acceso');
+        }
+
+        let response = await fetch(`http://127.0.0.1:8000/objetivo_plan/delete/${usuario}/${datos}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            let error_body = await response.json();
+            throw new Error(`Error en la solicitud (${response.status}): ${response.statusText}. Detalles: ${JSON.stringify(error_body)}`);
+        } else {
+            console.log('Se eliminó correctamente el registro');
+            // Aquí podrías manejar el éxito de la solicitud, por ejemplo, actualizar la interfaz de usuario.
+        }
+    } catch (error) {
+        console.error('Algo salió mal al eliminar el registro:', error.message);
+        // Aquí podrías manejar el error, por ejemplo, mostrar un mensaje de error al usuario en la interfaz de usuario.
+    }
+}
+
+
 class Read_objetivos_FE{
     constructor(promesa){
         this.promesa = promesa;
@@ -162,12 +193,32 @@ class Add_objetivos{
             input.focus()
         })
 
-        boton_guardar.addEventListener('click', () => {
-            let info_agregado_input = input.value
-            console.log(info_agregado_input)
-            create_objetivo(info_agregado_input)
-            location.reload()
+        promesa.then((listaDatos) => {
+             console.log(listaDatos.length)
+            
+                boton_guardar.addEventListener('click', () => {
+                    if(listaDatos.length < 3){
+                        let info_agregado_input = input.value
+                        console.log(info_agregado_input)
+                        create_objetivo(info_agregado_input)
+                        location.reload()
+                    }else{
+                        let aviso = document.getElementById("aviso");
+                        aviso.classList.add("mostrar");
+                        input.remove()
+                        boton_guardar.remove()
+
+                        // Ocultar el aviso después de 3 segundos (3000 milisegundos)
+                        setTimeout(function() {
+                          aviso.classList.remove("mostrar");
+                          location.reload()
+
+                        }, 3000);
+                    }   
+                })
+           
         })
+      
     }
 }
 
@@ -195,6 +246,7 @@ class Update_objetivos{
     
         // Contenedor para ambos botones
         let contenedor_botones = document.createElement('div');
+        contenedor_botones.className = 'contenedor_botones'
         contenedor_botones.appendChild(boton_guadar);
         contenedor_botones.appendChild(boton_cancelar);
     
@@ -202,7 +254,7 @@ class Update_objetivos{
     
         let edicionActiva = false;
         let contenidoOriginal = {}; // Objeto para almacenar contenido original por párrafo
-    
+        
         btn_modificar.addEventListener('click', () => {
             let contenedor_objetivos = this.elementos_necesarios_update.contenedor_parrafos;
             let elementosHijos = contenedor_objetivos.children;
@@ -253,7 +305,6 @@ class Update_objetivos{
                             });
                         }
                     });
-    
                     setTimeout(() => {
                         i.classList.remove('resaltar-elemento');
                     }, 4000);
@@ -262,6 +313,63 @@ class Update_objetivos{
         });
     }
 }    
+
+class Delete_objetivo{
+    constructor(promesa){
+        this.promesa = promesa
+        this.elementos_necesarios_delete = {
+            boton_delete : document.getElementById('boton_delete'),
+            boton_ok : document.createElement('button'),
+            boton_agregar_objetivo : document.getElementById('btnObjetivos'),
+            contenedor_parrafos : document.getElementById('objetivo_id')
+        }
+    }
+
+    delete_objetivo(){
+        let delete_boton = this.elementos_necesarios_delete.boton_delete;
+        let ok_boton = this.elementos_necesarios_delete.boton_ok;
+        
+        ok_boton.className = 'boton_ok'
+        let boton_agregar = this.elementos_necesarios_delete.boton_agregar_objetivo;
+
+        
+
+        delete_boton.addEventListener('click', (event) => {
+            let contenedor_objetivos = this.elementos_necesarios_delete.contenedor_parrafos;
+            let elementosHijos = contenedor_objetivos.children;
+            let elementosElement = Array.from(elementosHijos).filter(element => element.nodeType === 1);
+
+            let contenedor_botones = document.createElement('div');
+            contenedor_botones.appendChild(ok_boton);
+
+            let padre = boton_agregar.parentNode;
+            padre.replaceChild(ok_boton, boton_agregar);
+
+            for(let i of elementosElement){
+                i.addEventListener('click', (event) => {
+                    let parrafoClickeado = event.currentTarget;
+    
+                    parrafoClickeado.classList.add('filaClickeada');
+                    let indiceFilaClickeada = Array.from(elementosElement).indexOf(parrafoClickeado) -1;
+
+                    promesa.then((listaDatos) => {
+                        let info_peticion = listaDatos[indiceFilaClickeada]['id']
+                        //  console.log(listaDatos)
+                        ok_boton.addEventListener('click', () => {
+                            // Lógica para cuando se hace clic en el botón "OK"
+                            // console.log(info_peticion);
+                            delete_objetivos(info_peticion)
+                            location.reload()
+                       })
+                  
+                    });
+                })
+               
+            }
+        });
+    }
+}
+
 
 function boton_activar_desactivar_vista (){
     // let btn_objetivo_id_desactivado = document.getElementById('btn_objetivo_id_desactivado');
@@ -302,9 +410,6 @@ function boton_activar_desactivar_vista (){
 }
 
 
-
-
-
 boton_activar_desactivar_vista()
 let read_objetivos = new Read_objetivos_FE(promesa);
 read_objetivos.agregacion_FE()
@@ -314,3 +419,6 @@ addObjetivo.agregar_nuevo_objetivo()
 
 let objetivos_update = new Update_objetivos(promesa)
 objetivos_update.update_objetivos()
+
+let eliminar_objetivos = new Delete_objetivo(promesa)
+eliminar_objetivos.delete_objetivo()

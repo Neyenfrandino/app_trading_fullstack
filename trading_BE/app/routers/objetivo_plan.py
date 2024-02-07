@@ -35,7 +35,7 @@ def actualizar_objetivo_plan(user_id: int, num_objetivo_plan:int, UpdateObjetivo
     return respuesta
 
 
-# @router.delete('/{user_id}')
-# def eliminar_objetivo_plan(user_id: int, db:Session = Depends(get_db)):
-#     respuesta = objetivo_plan.eliminar_objetivo_plan(user_id, db)
-#     return respuesta
+@router.delete('/delete/{user_id}/{num_objetivo_delete}')
+def eliminar_objetivo_plan(user_id: int, num_objetivo_delete: int, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    respuesta = objetivo_plan.eliminar_objetivo_plan(user_id, num_objetivo_delete, db)
+    return respuesta

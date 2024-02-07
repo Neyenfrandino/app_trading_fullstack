@@ -474,6 +474,34 @@ button.btn-primary {
   transform: translateY(-2px);
 }
 
+.boton_ok {
+  /* Estilos para el botón */
+  background-color: #45a049; /* Verde más oscuro al pasar el mouse */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative; /* Añadir posición relativa para el icono */
+  margin-left: 45%;
+  height: 40px;
+  width: 50px;
+}
+
+.boton_ok::before {
+  /* Estilos para el icono */
+  content: "\2714"; /* Código Unicode para el icono de palomita */
+  position: absolute; /* Posicionar el icono de manera absoluta */
+  top: 50%; /* Centrar verticalmente */
+  left: 50%; /* Centrar horizontalmente */
+  transform: translate(-50%, -50%); /* Centrar completamente */
+  font-size: 24px; /* Tamaño del icono */
+}
+
+.boton_ok:hover {
+  /* Estilos para cuando se pasa el cursor sobre el botón */
+  background-color: darkgreen;
+}
 
 
 /* -------------------------------------------------------tarjeta objetivo-------------------------------------------------------------------- */
