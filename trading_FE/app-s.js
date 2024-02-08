@@ -312,7 +312,7 @@ class Tabla {
             } else {
               contador = 0;
             }
-            if (campo == 'botones_crud' ) {
+            if (campo == 'botones_crud') {
               // let modificar_elemento_base_de_datos = this.botonModificarElementosEnbaseDeDatos();
               // let btneliminar = this.btnEliminar();
               // fila.appendChild(modificar_elemento_base_de_datos);
@@ -325,7 +325,7 @@ class Tabla {
                 boton_eliminar.addEventListener('click', (Event) =>{
                   let tablaClickeada = Event.target.closest('table');
                   let filas = tablaClickeada.querySelectorAll('tr');
-                  fila.className = 'filaClickeada'
+                  // filas.className = 'filaClickeada'
 
                   // Convertir NodeList a un array
                   let filasArray = Array.from(filas);

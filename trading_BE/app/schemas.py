@@ -100,7 +100,7 @@ class UpdateEntrada(BaseModel):
 
 class UpdateCantidadMoneda(BaseModel):
     cantidad: float = None
-
+    moneda_id: int = None
 class Login(BaseModel):
     username: str
     password: str

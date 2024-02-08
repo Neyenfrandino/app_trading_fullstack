@@ -194,10 +194,10 @@ class Add_objetivos{
         })
 
         promesa.then((listaDatos) => {
-             console.log(listaDatos.length)
-            
+            //  console.log(listaDatos.length)
+                console.log(input.value)
                 boton_guardar.addEventListener('click', () => {
-                    if(listaDatos.length < 3){
+                    if(listaDatos.length < 3 && input.value !== ''){
                         let info_agregado_input = input.value
                         console.log(info_agregado_input)
                         create_objetivo(info_agregado_input)
@@ -279,7 +279,7 @@ class Update_objetivos{
                             contenidoOriginal[i.id] = parrafoClickeado.textContent;
     
                             i.contentEditable = true;
-    
+                            
                             boton_guadar.addEventListener('click', async () => {
                                 let objeto_info_update = {
                                     objetivo_principal: i.textContent.toString()
@@ -334,10 +334,11 @@ class Delete_objetivo{
 
         
 
-        delete_boton.addEventListener('click', (event) => {
+        delete_boton.addEventListener('click', () => {
             let contenedor_objetivos = this.elementos_necesarios_delete.contenedor_parrafos;
             let elementosHijos = contenedor_objetivos.children;
             let elementosElement = Array.from(elementosHijos).filter(element => element.nodeType === 1);
+            
 
             let contenedor_botones = document.createElement('div');
             contenedor_botones.appendChild(ok_boton);
@@ -349,7 +350,7 @@ class Delete_objetivo{
                 i.addEventListener('click', (event) => {
                     let parrafoClickeado = event.currentTarget;
     
-                    parrafoClickeado.classList.add('filaClickeada');
+                    parrafoClickeado.className = 'filaClickeada';
                     let indiceFilaClickeada = Array.from(elementosElement).indexOf(parrafoClickeado) -1;
 
                     promesa.then((listaDatos) => {
@@ -369,7 +370,6 @@ class Delete_objetivo{
         });
     }
 }
-
 
 function boton_activar_desactivar_vista (){
     // let btn_objetivo_id_desactivado = document.getElementById('btn_objetivo_id_desactivado');

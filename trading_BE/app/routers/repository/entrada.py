@@ -3,6 +3,9 @@ from sqlalchemy.orm import Session
 from app.db import models
 from datetime import datetime
 from fastapi import HTTPException, status
+from app.routers.repository import usuario_moneda
+from app.schemas import Usuario_moneda
+# from app.schemas import UpdateCantidadMoneda
 
 
 def obtener_entradas_por_id(user_id, db:Session):
@@ -17,72 +20,105 @@ def add_entrada(user_id, modelo, db:Session):
     if not usuario:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, 
                             detail={"message": "El usuario no existe"} ) 
-
     
+
+    num_entrada_usuario_moneda = db.query(models.UsuarioMoneda).filter(models.UsuarioMoneda.usuario_id == user_id).all()
     objetivo_plan = db.query(models.ObjetivoPlan).filter(models.ObjetivoPlan.usuario_id == usuario.id).first()
 
-    # Resto del código...
-    if objetivo_plan:   
-        entrada_data = dict(modelo)
-        nueva_entrada = models.Entrada(
-            objetivos_plan_id= objetivo_plan.id,
-            usuario_id= usuario.id,
-            moneda_id=  entrada_data['moneda_id'],
-            punto_entrada= entrada_data['punto_entrada'],
-            stop_loss= entrada_data['stop_loss'],
-            take_profit= entrada_data['take_profit'],
-            resultado_usdt= entrada_data['resultado_usdt'],
-            riesgo_beneficio= entrada_data['riesgo_beneficio'],
-            lotage= entrada_data['lotage'],
-            compra_venta= entrada_data['compra_venta'],
-            # fecha_creacion= datetime.now(),
-        )
+    entrada_data = dict(modelo)
 
-        db.add(nueva_entrada)
-        db.commit()
-        db.refresh(nueva_entrada)
+    for i in num_entrada_usuario_moneda:
+        # print(i.cantidad, 'jaja')
 
-        return {'Message': 'Entrada agregada exitosamente!!'}
-    else:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, 
+        if i.moneda_id == entrada_data['moneda_id'] and i.cantidad >= entrada_data['lotage'] :
+            print(entrada_data['moneda_id'], 'si estoy man ') 
+            if objetivo_plan:
+                nueva_entrada = models.Entrada(
+                    objetivos_plan_id= objetivo_plan.id,
+                    usuario_id= usuario.id,
+                    moneda_id= entrada_data['moneda_id'],
+                    punto_entrada= entrada_data['punto_entrada'],
+                    stop_loss= entrada_data['stop_loss'],
+                    take_profit= entrada_data['take_profit'],
+                    resultado_usdt= entrada_data['resultado_usdt'],
+                    riesgo_beneficio= entrada_data['riesgo_beneficio'],
+                    lotage= entrada_data['lotage'],
+                    compra_venta= entrada_data['compra_venta'],
+                    # fecha_creacion= datetime.now(),
+                )
+                db.add(nueva_entrada)
+                db.commit()
+                db.refresh(nueva_entrada)
+
+                if entrada_data['resultado_usdt'] != 0:
+                    operecion_cantidad_moneda = i.cantidad + entrada_data['resultado_usdt']
+                    print(operecion_cantidad_moneda, 'ajajajaja')
+                    usuario_moneda.actualizar_cantidad_moneda(user_id, entrada_data['moneda_id'], operecion_cantidad_moneda, db)
+                else:
+                    return {'Message': 'No tienes dinero en tu billetera'}    
+                    
+            
+                return {'Message': 'Entrada agregada exitosamente!!'}
+                    
+
+            else:
+                print('no estoy man') 
+                raise HTTPException(status_code=status.HTTP_409_CONFLICT, 
                             detail={'Message': 'Usuario no aplica a las condiciones para intruducir una entrada'} ) 
-    
+      
+       
     
     
 
-
-
-def actualizar_entrada(user_id,num_entrada, UpdateEntrada, db: Session):
+def actualizar_entrada(user_id, num_entrada, UpdateEntrada, db: Session):
     usuario = db.query(models.User).filter(models.User.id == user_id).first()
-
     if not usuario:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, 
                             detail={"message": "El usuario no existe"}) 
     
     nota = db.query(models.Entrada).filter(models.Entrada.usuario_id == usuario.id).first()
-
-    # print(nota.usuario_id, 'nota ')
-    # print(usuario, 'usuario')
-    if nota:
-        entrada = db.query(models.Entrada).filter(models.Entrada.id == num_entrada).first()
-        if UpdateEntrada is not None and entrada:
-            entrada.punto_entrada = UpdateEntrada.punto_entrada
-            entrada.stop_loss = UpdateEntrada.stop_loss
-            entrada.take_profit = UpdateEntrada.take_profit
-            entrada.riesgo_beneficio = UpdateEntrada.riesgo_beneficio
-            entrada.lotage = UpdateEntrada.lotage
-            entrada.compra_venta = UpdateEntrada.compra_venta
-            entrada.moneda_id = UpdateEntrada.moneda_id
-            entrada.resultado_usdt = UpdateEntrada.resultado_usdt
-            # entrada.fecha_creacion = UpdateEntrada.fecha_creacion
-            
-        else:
-            raise HTTPException(status_code=status.HTTP_409_CONFLICT, 
-                            detail={"message": "Entrada no encontrada para el usuario"} ) 
-        db.commit()
-        return {"message": "Entrada actualizada exitosamente"}
-
+    entrada = db.query(models.Entrada).filter(models.Entrada.id == num_entrada).first()
+    num_entrada_usuario_moneda = db.query(models.UsuarioMoneda).filter(models.UsuarioMoneda.usuario_id == user_id).all()
         
+    for i in num_entrada_usuario_moneda:
+        if entrada.moneda_id == i.moneda_id:
+
+            restableciendo_billetera = i.cantidad - entrada.resultado_usdt
+            update_restableciendo = {
+                'cantidad' : restableciendo_billetera,
+                'moneda_id' : entrada.moneda_id
+            }
+            usuario_moneda.actualizar_cantidad_moneda(user_id, entrada.moneda_id, update_restableciendo, db)
+            
+        if i.moneda_id == UpdateEntrada.moneda_id and i.cantidad >= UpdateEntrada.lotage and nota:
+            if UpdateEntrada is not None and entrada:
+                
+                entrada.punto_entrada = UpdateEntrada.punto_entrada
+                entrada.stop_loss = UpdateEntrada.stop_loss
+                entrada.take_profit = UpdateEntrada.take_profit
+                entrada.riesgo_beneficio = UpdateEntrada.riesgo_beneficio
+                entrada.lotage = UpdateEntrada.lotage
+                entrada.compra_venta = UpdateEntrada.compra_venta
+                entrada.moneda_id = UpdateEntrada.moneda_id
+                entrada.resultado_usdt = UpdateEntrada.resultado_usdt
+                # entrada.fecha_creacion = UpdateEntrada.fecha_creacion
+              
+                resultado_update_usuario_moneda = i.cantidad + UpdateEntrada.resultado_usdt
+
+                UpdateCantidadMoneda = {
+                    'cantidad' : resultado_update_usuario_moneda,
+                    'moneda_id' : UpdateEntrada.moneda_id
+                }
+                # print(UpdateCantidadMoneda['moneda_id'], UpdateCantidadMoneda['cantidad'], 'soy un dict')
+                usuario_moneda.actualizar_cantidad_moneda(user_id, UpdateEntrada.moneda_id, UpdateCantidadMoneda, db)
+                db.commit()
+                print('y luego por aqui')
+
+                return {"message": "Entrada actualizada exitosamente"}
+
+    raise HTTPException(status_code=status.HTTP_409_CONFLICT, 
+                detail={"message": "Entrada no encontrada para el usuario"}) 
+
 
 
 def eliminar_entrada(user_id,num_entrada, db:Session):

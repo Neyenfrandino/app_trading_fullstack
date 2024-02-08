@@ -25,13 +25,16 @@ def obtener_cantidad_moneda(db: Session = Depends(get_db), current_user: User = 
     return data
 
 #Creamos una api donde vamos a agregar por el momento los usuarios a una lista 
-@router.post('/crear_usuario', status_code=status.HTTP_201_CREATED)
+@router.post('/crear_usuario_moneda/{user_id}', status_code=status.HTTP_201_CREATED)
 def add_cantidad_moneda(user_id, modelo: Usuario_moneda, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     respuesta = usuario_moneda.add_cantidad_moneda(user_id, modelo, db)
     return respuesta
+    # pass
 
-@router.patch('/user_id /num_moneda')
+@router.patch('/{user_id}/{num_moneda}')
 def actualizar_cantidad_moneda(user_id: int, num_moneda:int, UpdateCantidadMoneda:UpdateCantidadMoneda, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    respuesta = usuario_moneda.actualizar_cantidad_moneda(user_id, num_moneda, UpdateCantidadMoneda, db)
-    return respuesta
+# def actualizar_cantidad_moneda(user_id: int, num_moneda:int, id_moneda, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    # respuesta = usuario_moneda.actualizar_cantidad_moneda(user_id, num_moneda, UpdateCantidadMoneda, db)
+    # return respuesta
+    pass
 
