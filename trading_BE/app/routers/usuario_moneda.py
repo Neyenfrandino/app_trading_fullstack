@@ -19,9 +19,9 @@ router = APIRouter(prefix='/usuario_moneda',
 #     return {'Hola Mundo'}
 
 
-@router.get('/')
-def obtener_cantidad_moneda(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    data = usuario_moneda.obtener_cantidad_moneda(db)
+@router.get('/get_datos_wallet/{user_id}')
+def obtener_cantidad_moneda(user_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    data = usuario_moneda.obtener_cantidad_moneda(user_id, db)
     return data
 
 #Creamos una api donde vamos a agregar por el momento los usuarios a una lista 
@@ -31,10 +31,9 @@ def add_cantidad_moneda(user_id, modelo: Usuario_moneda, db:Session = Depends(ge
     return respuesta
     # pass
 
-@router.patch('/{user_id}/{num_moneda}')
-def actualizar_cantidad_moneda(user_id: int, num_moneda:int, UpdateCantidadMoneda:UpdateCantidadMoneda, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-# def actualizar_cantidad_moneda(user_id: int, num_moneda:int, id_moneda, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    # respuesta = usuario_moneda.actualizar_cantidad_moneda(user_id, num_moneda, UpdateCantidadMoneda, db)
-    # return respuesta
-    pass
+@router.patch('/update_moneda/{user_id}/{num_moneda}')
+def actualizar_cantidad_moneda(user_id: int, num_moneda:int, UpdateCantidadMoneda: UpdateCantidadMoneda, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    respuesta = usuario_moneda.actualizar_cantidad_moneda(user_id, num_moneda, UpdateCantidadMoneda, db)
+    return respuesta
+    
 

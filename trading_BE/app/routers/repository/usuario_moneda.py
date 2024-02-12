@@ -4,10 +4,12 @@ from app.db import models
 from app.schemas import Usuario_moneda
 from fastapi import HTTPException, status
 from sqlalchemy.orm import joinedload
+from app.schemas import Entrada, UpdateEntrada
 
 
-def obtener_cantidad_moneda(db:Session):
-    data  = db.query(models.UsuarioMoneda).all()
+def obtener_cantidad_moneda(user_id, db:Session):
+    # usuario = db.query()
+    data = db.query(models.UsuarioMoneda).filter(models.UsuarioMoneda.usuario_id == user_id).all()
     return data
 
     
@@ -43,15 +45,20 @@ def actualizar_cantidad_moneda(user_id, num_moneda, UpdateCantidadMoneda, db: Se
 
     if not usuario:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail={"message": "Usuario no encontrado"})
-    
     moneda = db.query(models.UsuarioMoneda).filter(models.UsuarioMoneda.moneda_id == num_moneda).first()
-  
+    
+    print(UpdateCantidadMoneda['cantidad'], 'jajaj')
+    print(moneda.cantidad)
     if moneda:
-        moneda.cantidad = UpdateCantidadMoneda['cantidad']
-        moneda.moneda_id = UpdateCantidadMoneda['moneda_id']
-        db.commit()
-        return {"message": "actualizacion exitosa"}
+        if UpdateCantidadMoneda and 'cantidad' in UpdateCantidadMoneda:
+            moneda.cantidad = UpdateCantidadMoneda['cantidad']
+    #     if UpdateCantidadMoneda and hasattr(UpdateCantidadMoneda, 'cantidad'):
+    #         moneda.cantidad += UpdateCantidadMoneda.cantidad
+
+    # db.commit()
+    # return {"message": "actualizacion exitosa"}
+
         
-    raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail={"message": "Moneda no encontrada para el usuario"})
+    # raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail={"message": "Moneda no encontrada para el usuario"})
 
     

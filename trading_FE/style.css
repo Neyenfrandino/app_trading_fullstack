@@ -1,15 +1,16 @@
 body {
-  font-family: 'Courier New', Courier, monospace;
-  background: linear-gradient(to right, #1b2024, #072437); /* Fondo con gradiente */
+  font-family: 'Courier New', Courier, monospace !important;
+  background-image: url(img/crypto-mining-7088575_1280.jpg);
+  background-size: cover; /* La imagen de fondo cubrirá todo el elemento */
   color: #292a31;
   margin: 0;
   padding: 0;
   transition: background 0.3s ease; /* Agregamos una transición al fondo */
 }
 
-body:hover {
-  background: linear-gradient(to right, #0d4625, #0b0f0c); /* Cambio de color al pasar el mouse */
-}
+/* body:hover { */
+  /* background: linear-gradient(to right, #0d4625, #0b0f0c); Cambio de color al pasar el mouse */
+/* } */
 
 
 .contenedor {
@@ -230,10 +231,12 @@ button.btn-primary {
 /* -------------------------------------------------------encabezado titulo-------------------------------------------------------------------- */
 
 #div_menu_encabezado {
+  font-family: 'Courier New', Courier, monospace;
+
   display: flex;
   align-items: center;
   padding: 10px;
-  background: linear-gradient(to right, #3498db, #080249);
+  background: linear-gradient(to right, rgba(52, 152, 219, 0.4), rgba(8, 2, 73, 0.4));
   color: rgba(0, 0, 0, 0.0);
   border-top-left-radius: 10px;
   border-top-right-radius: 100px;
@@ -266,20 +269,21 @@ button.btn-primary {
 
 /* -------------------------------------------------------menu titulo-------------------------------------------------------------------- */
 
-#nav-tab {
-  margin-top: 30px;
-  margin-left: 10px;
-}
-.tab-content>.active {
-  display: block;
-  color: white;
+#nav-tab a {
+  /* margin-top: 40px; */
+  margin-left: 5px;
+  color: black ;
+  text-decoration: none;
 }
 
 #nav-home-tab a{
   color: black;
 }
+
 #div_menu_encabezado #nav-tab .nav-link {
   color: #000; /* Cambia este valor al color deseado para los botones no activos */
+  font-family:'Courier New', Courier, monospace;
+  font-weight: bolder;
   
 }
 
@@ -287,7 +291,7 @@ button.btn-primary {
   display: flex;
   flex-wrap: nowrap; /* Evita que los elementos se envuelvan a la siguiente línea */
   justify-content: flex-start;
-  margin-top: 30px; /* Puedes ajustar el valor según sea necesario */
+  margin-top: 40px; /* Puedes ajustar el valor según sea necesario */
 }
 
 
@@ -326,7 +330,8 @@ button.btn-primary {
 }
 
 .parrafo_objetivo{
-  color: wheat;
+  color: rgb(0, 0, 0);
+  font-weight: bolder;
   margin-bottom: 1px;
 }
 

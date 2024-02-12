@@ -1,11 +1,10 @@
-#Aqui van las funciones 
 from sqlalchemy.orm import Session
 from app.db import models
 from datetime import datetime
 from fastapi import HTTPException, status
 from app.routers.repository import usuario_moneda
 from app.schemas import Usuario_moneda
-# from app.schemas import UpdateCantidadMoneda
+# from app.schemas import UpdateCantidadMonedaim
 
 
 def obtener_entradas_por_id(user_id, db:Session):
@@ -62,7 +61,6 @@ def add_entrada(user_id, modelo, db:Session):
                     
 
             else:
-                print('no estoy man') 
                 raise HTTPException(status_code=status.HTTP_409_CONFLICT, 
                             detail={'Message': 'Usuario no aplica a las condiciones para intruducir una entrada'} ) 
       
@@ -76,45 +74,53 @@ def actualizar_entrada(user_id, num_entrada, UpdateEntrada, db: Session):
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, 
                             detail={"message": "El usuario no existe"}) 
     
-    nota = db.query(models.Entrada).filter(models.Entrada.usuario_id == usuario.id).first()
+
     entrada = db.query(models.Entrada).filter(models.Entrada.id == num_entrada).first()
-    num_entrada_usuario_moneda = db.query(models.UsuarioMoneda).filter(models.UsuarioMoneda.usuario_id == user_id).all()
-        
-    for i in num_entrada_usuario_moneda:
-        if entrada.moneda_id == i.moneda_id:
+    filtro = db.query(models.UsuarioMoneda).filter(models.UsuarioMoneda.moneda_id == entrada.moneda_id).first()
 
-            restableciendo_billetera = i.cantidad - entrada.resultado_usdt
-            update_restableciendo = {
-                'cantidad' : restableciendo_billetera,
-                'moneda_id' : entrada.moneda_id
-            }
-            usuario_moneda.actualizar_cantidad_moneda(user_id, entrada.moneda_id, update_restableciendo, db)
-            
-        if i.moneda_id == UpdateEntrada.moneda_id and i.cantidad >= UpdateEntrada.lotage and nota:
-            if UpdateEntrada is not None and entrada:
+    if UpdateEntrada.resultado_usdt <= filtro.cantidad:
+
+        print('aqui')
+        print(entrada.resultado_usdt, 'estrada ')
+
+        if UpdateEntrada is not None and entrada:
                 
-                entrada.punto_entrada = UpdateEntrada.punto_entrada
-                entrada.stop_loss = UpdateEntrada.stop_loss
-                entrada.take_profit = UpdateEntrada.take_profit
-                entrada.riesgo_beneficio = UpdateEntrada.riesgo_beneficio
-                entrada.lotage = UpdateEntrada.lotage
-                entrada.compra_venta = UpdateEntrada.compra_venta
-                entrada.moneda_id = UpdateEntrada.moneda_id
-                entrada.resultado_usdt = UpdateEntrada.resultado_usdt
-                # entrada.fecha_creacion = UpdateEntrada.fecha_creacion
-              
-                resultado_update_usuario_moneda = i.cantidad + UpdateEntrada.resultado_usdt
+            entrada.punto_entrada = UpdateEntrada.punto_entrada
+            entrada.stop_loss = UpdateEntrada.stop_loss
+            entrada.take_profit = UpdateEntrada.take_profit
+            entrada.riesgo_beneficio = UpdateEntrada.riesgo_beneficio
+            entrada.lotage = UpdateEntrada.lotage
+            entrada.compra_venta = UpdateEntrada.compra_venta
+            entrada.moneda_id = UpdateEntrada.moneda_id
+            entrada.resultado_usdt = UpdateEntrada.resultado_usdt
+            entrada.fecha_creacion = UpdateEntrada.fecha_creacion
 
-                UpdateCantidadMoneda = {
-                    'cantidad' : resultado_update_usuario_moneda,
-                    'moneda_id' : UpdateEntrada.moneda_id
-                }
-                # print(UpdateCantidadMoneda['moneda_id'], UpdateCantidadMoneda['cantidad'], 'soy un dict')
-                usuario_moneda.actualizar_cantidad_moneda(user_id, UpdateEntrada.moneda_id, UpdateCantidadMoneda, db)
-                db.commit()
-                print('y luego por aqui')
+            resultado_update_usuario_moneda = filtro.cantidad + UpdateEntrada.resultado_usdt
+            UpdateCantidadMoneda = {
+                'cantidad' : resultado_update_usuario_moneda,
+                # 'moneda_id' : UpdateEntrada.moneda_id
+            }
+    
+    # if UpdateEntrada.moneda_id != filtro.moneda_id:
+    #     print('soy diferente')
+    #     print(filtro.cantidad, 'filtreo')
+    #     print(entrada.resultado_usdt, 'estrada ')
 
-                return {"message": "Entrada actualizada exitosamente"}
+
+    #     restablecer_billetera = abs(entrada.resultado_usdt - filtro.cantidad)
+    #     UpdateCantidadMoneda = {
+    #             'cantidad' : restablecer_billetera,
+    #             # 'moneda_id' : UpdateEntrada.moneda_id
+    #         }
+    #     print('restablesco la billetera ')
+    #     usuario_moneda.actualizar_cantidad_moneda(user_id, entrada.moneda_id, UpdateCantidadMoneda, db)
+
+        
+        usuario_moneda.actualizar_cantidad_moneda(user_id, UpdateEntrada.moneda_id, UpdateCantidadMoneda, db)
+        db.commit()         
+        return {"message": "Entrada actualizada exitosamente"}            
+
+
 
     raise HTTPException(status_code=status.HTTP_409_CONFLICT, 
                 detail={"message": "Entrada no encontrada para el usuario"}) 

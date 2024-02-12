@@ -92,8 +92,6 @@ function datos_login(){
     return auth
 }
 
-
-
  window.document.addEventListener('DOMContentLoaded', () => {
     let btn_login = document.getElementById('btn_login');
     btn_login.addEventListener('click', async (event) => {
@@ -116,20 +114,6 @@ function datos_login(){
         }
     })
 });
-
-
-// Esta funcion cierra la la seccion de usuario actual
-export function logout() {
-    if (localStorage.getItem('accessToken')) {
-        localStorage.removeItem('accessToken');
-        console.log('Token de acceso eliminado correctamente.');
-        window.location.href = 'http://127.0.0.1:5500/trading_FE/Index_login.html';
-    } else {
-        console.log('No hay token de acceso para eliminar.');
-    }
-}
-  
-
 
 
 

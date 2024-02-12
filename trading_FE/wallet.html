@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>Wallet - Crypto</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <style>
+     body {
+            font-family: 'Courier New', Courier, monospace;
+            background-image: url(img/crypto-mining-7088575_1280.jpg);
+            background-size: cover; /* La imagen de fondo cubrirá todo el elemento */
+            color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            transition: background 0.3s ease; /* Agregamos una transición al fondo */
+        }
+
+        #div_menu_encabezado{
+            margin-bottom: 5%;
+        }
+
+
+        .container_wallet {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .titulo_wallet {
+            color: #ffcdcd;
+            font-family: monospace;
+        }
+        .tabla_wallet {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .table_heder_wallet, .td_wallet {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        .boton_wallet{
+            margin: 5px;
+        }
+
+        .input_cantidad_deposito{
+            background-color: rgba(0, 0, 0, 0.1);
+            width: 30%;
+            margin: 0 auto;
+            border: solid 2px #0800f3;
+            margin-top: 20px;
+        }
+
+        .modal_title{
+            color: rgb(255, 255, 255);
+            background-origin: padding-box;
+        }
+
+        .modal-content{
+            background-color: rgba(156, 143, 143, 0.7);
+        }
+
+
+
+        
+    </style>
+</head>
+<body>
+    <div id="div_menu_encabezado">
+        <h2 class="tituloInversiones" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMenu" aria-expanded="false" aria-controls="collapseMenu">
+          "Documentación de Inversiones"
+        </h2>
+    
+        <div style="min-height: 120px;">
+          <div class="collapse collapse-horizontal" id="collapseMenu">
+            <div class="div_menu_encabezado" style="width: 600px;">
+              <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <button class="nav-link" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true"><a href="http://127.0.0.1:5500/trading_FE/index.html">Home</a></button>
+                    <button class="nav-link active" id="nav-wallet-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false"><a href="http://127.0.0.1:5500/trading_FE/wallet.html">Wallet</a></button>
+                    <button class="nav-link" id="nav-estadisticas-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false"><a href="http://127.0.0.1:5500/trading_FE/estadisticas.htm">Estadisticas</a></button>
+                    <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>
+                    <button class="nav-link" id="btnLogout" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false"><a href="'http://127.0.0.1:5500/trading_FE/Index_login.html">Cerrar Sesió</a></nav></button>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    <div class="container_wallet" id="container_wallet">
+        <h1 class="titulo_wallet">Wallet - Crypto</h1>
+        <table class="tabla_wallet" id="tabla_wallet">
+            <thead class="table_heder_wallet">
+                <tr class="encabezados_wallet">
+                    <th>Crypto</th>
+                    <th>Balance</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="filas_wallet" id="filas_wallet">
+                    <td class="td_wallet">Bitcoin (BTC)</td>
+                    <td class="td_wallet">5.2345 BTC</td>
+                    <td class="botones_wallet" id="botones_wallet">
+                        
+                        <button class="boton_wallet_deposit" id="boton_wallet_deposit">Deposit</button>
+                        <button class="boton_wallet_retirar" id="boton_wallet_retirar">Withdraw</button>
+                    </td>
+                </tr>
+                <tr class="filas_wallet">
+                    <td class="td_wallet">Ethereum (ETH)</td>
+                    <td class="td_wallet">20.1234 ETH</td>
+                    <td class="botones_wallet" id="botones_wallet">
+                        <button class="boton_wallet_deposit" id="boton_wallet_deposit">Deposit</button>
+                        <button class="boton_wallet_retirar" id="boton_wallet_retirar">Withdraw</button>
+                    </td>
+                </tr>
+                <!-- Add more rows for other cryptocurrencies -->
+            </tbody>
+        </table>
+    </div>
+
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script type="module" src="wallet.js"></script>
+</body>
+</html>

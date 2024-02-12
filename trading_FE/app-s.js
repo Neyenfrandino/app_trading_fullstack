@@ -1,30 +1,7 @@
-import { logout } from "./app_login.js";
-
 import { read_objetivos_db } from "./objetivo_plan.js";
+import { obtener_monedas_disponibles_db } from "./wallet.js";
 
-// Esta funcion lo trae los datos de la base de datos directamente cuando hacemos login de las entradas...
-// async function informacion_directa_login() {
-//     // let token = localStorage.getItem('accessToken');
-//     // let usuario = localStorage.getItem('user_id');
-//     let datos_entrada = localStorage.getItem('entradas');
-//     // Parsea la cadena JSON para obtener el array original
-    
-  
-//     try {
-//       if (!datos_entrada) {
-//         throw new Error('No se pudo completar la solicitud');
-//       }
-//       if(datos_entrada){
-//         let listaEntradas = JSON.parse(datos_entrada);
-//         // console.log('Información obtenida:', datos_entrada);
-        
-//         return listaEntradas
-//       }
-//     } catch (error) {
-//       console.error('Ocurrió un error al obtener la información:', error);
-//     }
-//}
- 
+
 async function get_informacion_entrada_db(){
     try{
         let token = localStorage.getItem('accessToken');
@@ -52,10 +29,10 @@ async function get_informacion_entrada_db(){
 }
 
  // // la asignamos la funcion de peticion a una variavle.
- let promesa = get_informacion_entrada_db();
- promesa.then(function(listaDatos) {
-  //  console.log(listaDatos)
- })
+let promesa = get_informacion_entrada_db();
+//  promesa.then(function(listaDatos) {
+//   //  console.log(listaDatos)
+//  })
 
  
 async function eliminar_entrada(id_entrada){
@@ -134,6 +111,8 @@ async function insertarDatos(datos) {
       let usuario = localStorage.getItem('user_id');
 
       datos_format['objetivos_plan_id'] = usuario;
+      console.log(datos_format, 'dadada')
+
 
       // console.log(datos_format)
       if (!token) {
@@ -160,66 +139,6 @@ async function insertarDatos(datos) {
 
     } catch (error) {
       console.error('Algo salió mal al crear el registro:', error.message);
-    }
-}
-
-//Esta funcion nos trae las monedas disponibles en la base de datos para pasar la informacion para las entradas 
-async function obtener_modenas_disponibles_db() {
-  try {
-    let token = localStorage.getItem('accessToken');
-    if (!token) {
-      throw new Error('Error en el token');
-    }
-
-    let response = await fetch('http://127.0.0.1:8000/moneda/', {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
-
-    if (!response.ok) {
-      let errorBody = await response.json();
-      throw new Error(`Error en la solicitud ${response.status}`, errorBody);
-    }
-
-    let data = await response.json();
-    // console.log('monedas:', data);
-    return data
-  } catch (error) {
-    console.error('Algo salió mal al obtener las monedas:', error.message);
-  }
-}
-
-// Esta funcion nos trae el plan y los objetivos disponibles de la base de datos.
-async function obtener_objetivo_plan_db(){
-    try{
-      let token = localStorage.getItem('accessToken');
-      let usuario = localStorage.getItem('user_id');
-      // datos_bd += { ...datos_bd, 'usuario_id': usuario };
-      // datos_bd += {'usuario_id': usuario} 
-  
-      
-      if(!token){
-        throw new Error('Error en el token');
-      }
-  
-      let response = await fetch('http://127.0.0.1:8000/objetivo_plan/',{
-        method: 'GET',
-        headers:{
-          'Authorization': `Bearer ${token}`
-        }
-      })
-      if (!response.ok) {
-        let errorBody = await response.json();
-        throw new Error(`Error en la solicitud ${response.status}`, errorBody);
-      }
-      
-      let data = await response.json();
-      console.log('plan objetio:', data);
-      return data
-    }catch (error) {
-      console.error('Algo salió mal al obtener las objetivos planes:', error.message);
     }
 }
 
@@ -386,11 +305,9 @@ class Tabla {
                       'moneda_id': this.datosRequeridosInsetTabla['moneda_id'],
                       // "fecha_creacion": this.datosRequeridosInsetTabla['fecha_creacion']
                       
-
                   };
-                  
                     modificar_entrada(datos_peticion, id_entrada)
-                    location.reload()
+                    // location.reload()
                   }
                 })                
             })
@@ -474,7 +391,7 @@ class Add_info_tabla{
             btn_moneda_cryto.id = 'btn_moneda_cryto';
             btn_moneda_cryto.className = 'btn_moneda_cryto';
 
-            let promesa = obtener_modenas_disponibles_db();
+            let promesa = obtener_monedas_disponibles_db();
             promesa.then(function (monedas) {
                 monedas.forEach(moneda => {
                     let option = document.createElement('option');
@@ -502,7 +419,7 @@ class Add_info_tabla{
                   
                     console.log(this.datosRequeridosInsetTabla);
                     insertarDatos(this.datosRequeridosInsetTabla);
-                    location.reload()
+                    // location.reload()
                     
                   } 
                 })
@@ -527,11 +444,11 @@ class Add_info_tabla{
 
 
 let btn_logout =  document.getElementById('btnLogout')
-btn_logout.addEventListener('click', logout);
 
 let tabla = new Tabla(promesa);
 tabla.tituloEncabezados();
 tabla.agregandoInformacionTablaDesdeBaseDeDatos()
+
 
 
 
@@ -562,4 +479,8 @@ function boton_guardar_datos(fila, objeto_datos, valor_id_celda) {
 
   return datosCorrectos;
 }
+
+
+
+
 
