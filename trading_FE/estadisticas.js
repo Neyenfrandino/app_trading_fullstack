@@ -17,7 +17,7 @@ async function get_estadisticas_db(){
             throw new Error(`Error en la solicitud (${response.status}): ${response.statusText}. Detalles: ${JSON.stringify(errorBody)}`);
         }
         let data = await response.json()
-        console.log(data, 'Data')
+        // console.log(data, 'Data')
         return data
     }catch (error) {
         console.error('Algo salió mal al intentar obtener entradas:', error.message);
@@ -27,7 +27,7 @@ async function get_estadisticas_db(){
 // Asignamos la función de petición a una variable.
 let promesa = get_estadisticas_db();
 promesa.then((listaDatos) => {
-  console.log(listaDatos['estadisticas_ganadoras']);
+  // console.log(listaDatos['estadisticas_ganadoras']);
 
   const data = {
     labels: ['Ganadoras', 'Perdedoras', 'En Cero'],
@@ -39,9 +39,9 @@ promesa.then((listaDatos) => {
         listaDatos['estadisticas_ganadoras'].breakeven.length
       ],
       backgroundColor: [
-        'rgba(0, 255, 255, 0.8)',
-        'rgba(0, 0, 0, 0.8)',
-        'rgb(241, 196, 15)'
+        'rgba(0, 255, 255, 0.5)',
+        'rgba(231, 76, 60, 0.5)',
+        'rgb(243, 156, 18)'
       ],
       hoverOffset: 4
     }]
@@ -55,7 +55,7 @@ promesa.then((listaDatos) => {
       legend: {
         position: 'top',
         labels: {
-          color: 'rgb(0, 0, 0)' // Cambia el color de los labels aquí
+          color:'rgb(255, 255, 255)' // Cambia el color de los labels aquí
         },
         font: {
           weight: 'bold' // Hace que el título sea audaz
@@ -65,9 +65,9 @@ promesa.then((listaDatos) => {
       title: {
         display: true,
         text: 'Resultados de Trading',
-        color: 'rgb(0, 0, 0)', // Cambia el color del título aquí
+        color: 'rgb(255, 255, 255)', // Cambia el color del título aquí
         font: {
-          weight: 'bold' // Hace que el título sea audaz
+          weight: 'bolder' // Hace que el título sea audaz
         }
       }
     }
@@ -80,3 +80,46 @@ promesa.then((listaDatos) => {
   });
 
 })
+
+
+function insert_data_estadisticas_card(){
+  let card = document.querySelectorAll('#card_id');
+  promesa.then((data) => {  
+    // Crea un título para la lista
+    let titulo_card_ganadas = document.createElement('h5');
+    titulo_card_ganadas.textContent = 'Ganadas';
+
+    let titulo_card_perdidas = document.createElement('h5');
+    titulo_card_perdidas.textContent ='Perdidas'
+  
+    // Crea una lista desordenada (ul)
+    let lista_ganadas = document.createElement('ul');
+    let lista_perdidad = document.createElement('ul');
+  
+    // Recorre los elementos de tu arreglo y crea un elemento de lista (li) para cada uno
+    
+    data['estadisticas_ganadoras']['ganadas'].forEach(item => {
+        let listItem = document.createElement('li');
+        listItem.textContent ='$'+ item + ' USDT';
+        lista_ganadas.appendChild(listItem);
+    });
+
+    data['estadisticas_ganadoras']['perdidas'].forEach(item => {
+        let listItem = document.createElement('li');
+        listItem.textContent = '$ '+ item + ' USDT';
+        lista_perdidad.appendChild(listItem);
+    });
+
+    // Agrega el título y la lista al contenedor
+    card[0].appendChild(titulo_card_ganadas);
+    card[0].appendChild(lista_ganadas);
+    card[0].appendChild(titulo_card_perdidas);
+    card[0].appendChild(lista_perdidad);
+  });
+  
+
+
+}
+
+insert_data_estadisticas_card()
+

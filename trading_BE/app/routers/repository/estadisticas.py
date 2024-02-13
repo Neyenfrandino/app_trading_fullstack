@@ -18,8 +18,10 @@ def get_estadisticas_db_all(user_id, db: Session):
     
     if resultados_usdt_db:
         datos_resultados_usdt_db = 0
+        all_resultados_entradas = []
         for i in resultados_usdt_db:
             datos_resultados_usdt_db += i.resultado_usdt
+            all_resultados_entradas.append(i.resultado_usdt)
 
         promedio_resultados_usdt_db = datos_resultados_usdt_db / len(resultados_usdt_db)
         # print(datos_resultados_usdt_db, 'data')
@@ -29,7 +31,8 @@ def get_estadisticas_db_all(user_id, db: Session):
         return {
             'total_resultados_usdt_db': total_resultados_usdt_db,
             'promedio_resultados_usdt_db': promedio_resultados_usdt_db,
-            'estadisticas_ganadoras': estadisticas_resultados
+            'estadisticas_ganadoras': estadisticas_resultados,
+            'All_resultados': all_resultados_entradas
         }
         
     else:
