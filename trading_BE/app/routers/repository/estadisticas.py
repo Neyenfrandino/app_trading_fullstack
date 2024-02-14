@@ -3,7 +3,7 @@ from app.db import models
 from datetime import datetime
 from fastapi import HTTPException, status
 from app.routers.repository import estadisticas
-from sqlalchemy import extract
+from sqlalchemy import extract, func
 from itertools import zip_longest
 
 def get_estadisticas_db_all(user_id, db: Session):
@@ -27,12 +27,14 @@ def get_estadisticas_db_all(user_id, db: Session):
         # print(datos_resultados_usdt_db, 'data')
         # print( len(resultados_usdt_db), 'largo')
         estadisticas_resultados = estadisticas_entradas_ganadoras(user_id, db)
+        porcentaje_total_ganancias = promedios_resultados_X_moneda(user_id, db)
 
         return {
             'total_resultados_usdt_db': total_resultados_usdt_db,
             'promedio_resultados_usdt_db': promedio_resultados_usdt_db,
             'estadisticas_ganadoras': estadisticas_resultados,
-            'All_resultados': all_resultados_entradas
+            'All_resultados': all_resultados_entradas,
+            'porcentaje_total_ganancias': porcentaje_total_ganancias
         }
         
     else:
@@ -96,3 +98,37 @@ def estadisticas_entradas_ganadoras(user_id, db: Session):
     raise HTTPException(status_code=status.HTTP_409_CONFLICT,
                         detail={"message": "El usuario no existe"})
  
+
+def promedios_resultados_X_moneda(user_id, db: Session):
+    usuario = db.query(models.User).filter(models.User.id == user_id).first();
+    
+    if not usuario:
+           raise HTTPException(status_code=status.HTTP_409_CONFLICT, 
+                            detail={"message": "El usuario no existe"})
+  
+
+    # Obtener la lista de cantidades en la billetera del usuario
+    billetera_cantidad = db.query(models.UsuarioMoneda).filter(models.UsuarioMoneda.usuario_id == usuario.id).all()
+
+    # Calcular la suma total de las cantidades en la billetera del usuario
+    total_en_billetera_usuario = sum(i.cantidad for i in billetera_cantidad)
+    # print(total_en_billetera_usuario, 'asdd')
+
+   # Calcular el porcentaje total de ganancia sobre 500
+    total_usdt, porcentaje_total_ganancia = db.query(
+        func.sum(models.Entrada.resultado_usdt).label('total_usdt'),
+        (func.sum(models.Entrada.resultado_usdt) / func.sum(total_en_billetera_usuario)) * 100
+    ).filter(
+        models.Entrada.usuario_id == usuario.id
+    ).first()
+
+    # print("Total USDT:", total_usdt)
+    # print("Porcentaje total de ganancia:", porcentaje_total_ganancia)
+
+    return {"Porcentaje total de ganancias": porcentaje_total_ganancia}
+
+        
+
+    
+
+

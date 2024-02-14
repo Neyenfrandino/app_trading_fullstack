@@ -117,6 +117,35 @@ function insert_data_estadisticas_card(){
     card[0].appendChild(lista_perdidad);
   });
   
+  promesa.then((data) => {
+    console.log(data)
+
+    let titulo_ganancias_totales = document.createElement('h5');
+    titulo_ganancias_totales.textContent = 'Gagancias';
+
+    let titulo_promedio = document.createElement('h5');
+    titulo_promedio.textContent = 'Promedio'
+
+
+    let lista_ganancias = document.createElement('ul')
+    let lista_promedio = document.createElement('ul')
+
+      let listItem = document.createElement('li')
+      listItem.textContent = `$${data.total_resultados_usdt_db}USDT`
+      lista_ganancias.appendChild(listItem)
+
+      let listaItem = document.createElement('li')
+      listaItem.textContent = `$${data.promedio_resultados_usdt_db}USDT`
+      lista_promedio.appendChild(listaItem)
+
+      card[1].appendChild(titulo_ganancias_totales)
+      card[1].appendChild(lista_ganancias)
+      
+      card[1].appendChild(titulo_promedio)
+      card[1].appendChild(lista_promedio)
+
+
+    })
 
 
 }
