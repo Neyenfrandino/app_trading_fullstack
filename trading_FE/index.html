@@ -19,11 +19,11 @@
         <div class="div_menu_encabezado" style="width: 600px;">
           <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
-              <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true"><a href="http://127.0.0.1:5500/trading_FE/index.html">Home</a></button>
-              <button class="nav-link" id="nav-wallet-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false"><a href="http://127.0.0.1:5500/trading_FE/wallet.html">Wallet</a></button>
-              <button class="nav-link" id="nav-estadisticas-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false"><a href="http://127.0.0.1:5500/trading_FE/estadisticas.htm">Estadisticas</a></button>
+              <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true"><a href="http://127.0.0.1:5501/trading_FE/index.html">Home</a></button>
+              <button class="nav-link" id="nav-wallet-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false"><a href="http://127.0.0.1:5501/trading_FE/wallet.html">Wallet</a></button>
+              <button class="nav-link" id="nav-estadisticas-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false"><a href="http://127.0.0.1:5501/trading_FE/estadisticas.html">Estadisticas</a></button>
               <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>
-              <button class="nav-link" id="btnLogout" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false"><a href="'http://127.0.0.1:5500/trading_FE/Index_login.html">Cerrar Sesió</a></nav></button>
+              <button class="nav-link" id="btnLogout" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false"><a href="http://127.0.0.1:5501/trading_FE/Index_login.html">Cerrar Sesió</a></nav></button>
             </div>
           </nav>
         </div>
@@ -31,32 +31,34 @@
     </div>
   </div>
   
-      
 
-    
+
+
+  <div>
   <div id="contenedor" class="contenedor">
     <ul class="nav nav-tabs">
       <li class="nav_item">
-        <button class="nav-link" id="btn_vista" aria-current="page">Vista activada</button>
+        <button style="color: aliceblue !important;" class="nav-link" id="btn_vista" aria-current="page">Vista activada</button>
       </li>
       <li class="nav-item">
         <div class="dropdown">
-          <button class="nav-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <button style="color: aliceblue !important;" class="nav-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             Mas opciones <span class="menu_mas_opciones">&vellip;</span>
           </button>
           <ul class="dropdown-menu ">
             <li>
-              <button class="nav-link" id="btn_update" type="button">
+              <button style="color: aliceblue !important;" class="nav-link" id="btn_update" type="button">
               Modificar <span>&#9998;</span>
               </button></li>
-            <li><button class="nav-link" aria-current="true" id="boton_delete" type="button">
+            <li><button style="color: aliceblue !important;" class="nav-link" aria-current="true" id="boton_delete" type="button">
               Eliminar <span>&#10006;</span>
               </button></li>
           </ul>
         </div>
       </li>
       <li class="nav-item">
-        <button class="nav-link" href="#">Link</button>
+        <button id="boton_add_plan" style="color: aliceblue !important;" class="nav-link">Agregar plan</button>
+      
       </li>
       <!-- <li class="nav-item">
         <button class="nav-link" id="btn_objetivo_id_desactivado" aria-disabled="true">Vista Desactivada</button>
@@ -68,17 +70,42 @@
     </div>
         <title id="aviso" class="aviso">'Solo puede tener 3 objetivos principales'</title>
         <button id="btnObjetivos" class="btnObjetivos">Agregar objetivos</button>
+
+
+        
+
   </div>
 
-  <!-- <div id="contenedor1" class="contenedor1">
-      <label for="planTradingLabel">
-          <p id="planTradingLabel" class="planTradingLabel">Plan de Trading:</p>
-          <ul id="listaPlanTrading">
-              
-          </ul>
-          <button id="btnPlanTrading" class="btnPlanTrading">Agregar plan de trading</button>
-      </label>
-  </div> -->
+
+<section id="tarjetas_contenedor">
+
+  <div id="contenedor_plan_add" class="card mb-3" style="max-width: 600px;">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img src="img/stickies-2852375_1920.jpg" class="img-fluid rounded-start" alt="...">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">Plan de accion...</h5>
+          <p id="card-text" class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+          <!-- <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+  <div id="contenedor_tabla_valores_monedas_binance" class="contenedor_tabla_valores_monedas_binance"></div>
+
+
+
+
+
+
+
 
 
   <section >
@@ -98,27 +125,8 @@
     </div>
   </section>
 
-  
   <script src="app-s.js" type="module"></script>
-
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
- <!-- <div class="contenedor1">
-        <label for="notaPersonal">
-            <p id="notaPersonal" class="notaPersonal">Notas Personales:</p>
-            <ul id="listaNotaPersonal">
-                <li>hola Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                    Maecenas malesuada semper velit, ut ornare ligula faucibus sed. 
-                    Aenean dictum ante non ipsum dictum, vel imperdiet lorem dignissim. 
-                    Donec et sagittis libero, id molestie leo. Phasellus a auctor tortor, 
-                    at tempor neque. Vestibulum sed lacus porttitor leo tincidunt aliquam. 
-                    Nunc malesuada molestie arcu. Nunc vitae magna convallis, tristique lorem nec, 
-                    convallis ex. Nullam dignissim id nulla nec porttitor. Nam id semper elit, 
-                    vel faucibus quam</li>
-            </ul>
-            <button id="btnNotaPersonal" class="btnNotaPersonal">Agregar nota Personal</button>
-        </label>
-    </div> -->
-      
 
 </body>
 </html>

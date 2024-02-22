@@ -142,6 +142,28 @@ async function insertarDatos(datos) {
     }
 }
 
+const symbols = ['BTCUSDT', 'ETHUSDT', 'BNBUSDT', 'SOLUSDT', 'XRPUSDT', 'IOTAUSDT'];  // Ejemplos de símbolos
+// URL base de la API de Binance
+const base_url = 'https://api.binance.com/api/v3/ticker/price';
+async function getPrice(symbol) {
+  const url = `${base_url}?symbol=${symbol}`;
+  
+  return fetch(await url)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      return { symbol: symbol, price: data.price };
+    })
+    .catch(error => {
+      console.error(`Error al obtener el precio de ${symbol}:`, error);
+      return { symbol: symbol, price: null };
+    });
+}
+
 class Tabla {
   constructor(promesa) {
       this.promesa = promesa;
@@ -442,15 +464,68 @@ class Add_info_tabla{
   }
 }
 
+class TablaPrice {
+  constructor(symbols) {
+    this.symbols = symbols;
+    this.elementosNecesariosTabla = {
+      contenedor: document.getElementById('contenedor_tabla_valores_monedas_binance'),
+      tabla: document.createElement('table'),
+    };
+    this.addEncabezadosTablaMoneda();
+    this.actualizarPrecios(); // Actualizar los precios una vez al inicio
+    setInterval(() => this.actualizarPrecios(), 1000); // Actualizar los precios cada 5 segundos
+  }
 
-let btn_logout =  document.getElementById('btnLogout')
+  async addEncabezadosTablaMoneda() {
+    this.elementosNecesariosTabla.tabla.className = 'tabla_monedas'
+
+    let tituloEncabezado = document.createElement('tr');
+    tituloEncabezado.className = 'tituloEncabezado'
+    for (let symbol of this.symbols) {
+      let celdaEncabezado = document.createElement('th');
+      celdaEncabezado.className = 'celdaEncabezado'
+      celdaEncabezado.textContent = symbol;
+      tituloEncabezado.appendChild(celdaEncabezado);
+    }
+    this.elementosNecesariosTabla.tabla.appendChild(tituloEncabezado);
+    this.elementosNecesariosTabla.contenedor.appendChild(this.elementosNecesariosTabla.tabla);
+  }
+
+  async actualizarPrecios() {
+    let filaDatos = document.createElement('tr');
+    filaDatos.className = 'filaDatos'
+    for (let symbol of this.symbols) {
+      try {
+        const data = await getPrice(symbol);
+        // console.log(`Precio actual de ${data.symbol}: ${data.price}`);
+        let celda = document.createElement('td');
+        celda.textContent =` $ ${parseFloat(data.price).toFixed(2)}`;
+        filaDatos.appendChild(celda);
+      } catch (error) {
+        console.error(`Error al obtener el precio de ${symbol}:`, error);
+        let celda = document.createElement('td');
+        celda.textContent = 'Error';
+        filaDatos.appendChild(celda);
+      }
+    }
+    // Reemplazar la fila existente con los nuevos precios
+    let filaExistente = this.elementosNecesariosTabla.tabla.querySelector('tr:last-child');
+    if (filaExistente) {
+      this.elementosNecesariosTabla.tabla.replaceChild(filaDatos, filaExistente);
+    } else {
+      this.elementosNecesariosTabla.tabla.appendChild(filaDatos);
+    }
+  }
+}
+
 
 let tabla = new Tabla(promesa);
 tabla.tituloEncabezados();
 tabla.agregandoInformacionTablaDesdeBaseDeDatos()
 
-
-
+const tabla_price = new TablaPrice(symbols);
+tabla_price.addEncabezadosTablaMoneda();
+tabla_price.actualizarPrecios();
 
 function boton_guardar_datos(fila, objeto_datos, valor_id_celda) {
   let datosCorrectos = true;  // Inicializamos el flag
@@ -479,6 +554,19 @@ function boton_guardar_datos(fila, objeto_datos, valor_id_celda) {
 
   return datosCorrectos;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -47,18 +47,18 @@ def actualizar_cantidad_moneda(user_id, num_moneda, UpdateCantidadMoneda, db: Se
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail={"message": "Usuario no encontrado"})
     moneda = db.query(models.UsuarioMoneda).filter(models.UsuarioMoneda.moneda_id == num_moneda).first()
     
-    print(UpdateCantidadMoneda['cantidad'], 'jajaj')
-    print(moneda.cantidad)
+    # print(UpdateCantidadMoneda['cantidad'], 'jajaj')
+    # print(moneda.cantidad)
     if moneda:
-        if UpdateCantidadMoneda and 'cantidad' in UpdateCantidadMoneda:
-            moneda.cantidad = UpdateCantidadMoneda['cantidad']
-    #     if UpdateCantidadMoneda and hasattr(UpdateCantidadMoneda, 'cantidad'):
-    #         moneda.cantidad += UpdateCantidadMoneda.cantidad
+        # if UpdateCantidadMoneda and 'cantidad' in UpdateCantidadMoneda:
+        #     moneda.cantidad = UpdateCantidadMoneda['cantidad']
+        if UpdateCantidadMoneda and hasattr(UpdateCantidadMoneda, 'cantidad'):
+            moneda.cantidad += UpdateCantidadMoneda.cantidad
 
-    # db.commit()
-    # return {"message": "actualizacion exitosa"}
+        db.commit()
+        return {"message": "actualizacion exitosa"}
 
         
-    # raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail={"message": "Moneda no encontrada para el usuario"})
+    raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail={"message": "Moneda no encontrada para el usuario"})
 
     

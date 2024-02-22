@@ -27,7 +27,8 @@ def get_estadisticas_db_all(user_id, db: Session):
         # print(datos_resultados_usdt_db, 'data')
         # print( len(resultados_usdt_db), 'largo')
         estadisticas_resultados = estadisticas_entradas_ganadoras(user_id, db)
-        porcentaje_total_ganancias = promedios_resultados_X_moneda(user_id, db)
+        porcentaje_total_ganancias = porcentaje_resultados_total_billetera(user_id, db)
+        procentaje_ganancias_x_moneda(user_id, db)
 
         return {
             'total_resultados_usdt_db': total_resultados_usdt_db,
@@ -99,7 +100,7 @@ def estadisticas_entradas_ganadoras(user_id, db: Session):
                         detail={"message": "El usuario no existe"})
  
 
-def promedios_resultados_X_moneda(user_id, db: Session):
+def porcentaje_resultados_total_billetera(user_id, db: Session):
     usuario = db.query(models.User).filter(models.User.id == user_id).first();
     
     if not usuario:
@@ -128,7 +129,34 @@ def promedios_resultados_X_moneda(user_id, db: Session):
     return {"Porcentaje total de ganancias": porcentaje_total_ganancia}
 
         
+def procentaje_ganancias_x_moneda(user_id, db: Session):
+    usuario = db.query(models.User).filter(models.User.id == user_id).first()
 
+    if not usuario:
+         raise HTTPException(status_code=status.HTTP_409_CONFLICT, 
+                            detail={"message": "El usuario no existe"}) 
+
+    billetera_cantidad = db.query(models.UsuarioMoneda).filter(models.UsuarioMoneda.usuario_id == usuario.id).all()
+
+   
+
+
+
+    for i in billetera_cantidad:
+        print(i.moneda_id)
+        total_entradas_x_moneda = db.query(
+            func.sum(models.Entrada.resultado_usdt)
+            ).filter(models.Entrada.usuario_id == usuario.id)\
+            .filter(models.Entrada.moneda_id == i.moneda_id).first()
+        
+        # print(total_entradas_x_moneda, 'asd')
+
+        cantidad_en_billetera = i.cantidad
+
+        porcentaje_resultado = (total_entradas_x_moneda[0] / cantidad_en_billetera) * 100
+        print(porcentaje_resultado)
     
+     
 
+        
 

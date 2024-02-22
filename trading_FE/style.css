@@ -1,77 +1,19 @@
 body {
   font-family: 'Courier New', Courier, monospace !important;
   background-image: url(img/crypto-mining-7088575_1280.jpg);
-  background-size: cover; /* La imagen de fondo cubrirá todo el elemento */
+  background-size: 100%; /* La imagen de fondo cubrirá todo el elemento */
   color: #292a31;
   margin: 0;
   padding: 0;
   transition: background 0.3s ease; /* Agregamos una transición al fondo */
 }
 
-/* body:hover { */
-  /* background: linear-gradient(to right, #0d4625, #0b0f0c); Cambio de color al pasar el mouse */
-/* } */
-
-
-.contenedor {
-    border: solid #4CAF50; /* Verde */
-    margin: 1%;
-    padding: 1%;
-    border-radius: 20px; /* Ajustado para un aspecto más sutil */
-    width: 48%; /* Ajustado para dar espacio entre contenedores */
-    box-sizing: border-box;
-    float: left;
-    
-}
-
-.contenedor1 {
-    border: solid #4CAF50; /* Verde */
-    margin: 1% 1% 9%;
-    padding: 1%;
-    border-radius: 20px; /* Ajustado para un aspecto más sutil */
-    width: 48%; /* Ajustado para dar espacio entre contenedores */
-    box-sizing: border-box;
-    float: right;
-}
-
-.planTradingLabel,
-.notaPersonal {
-    background-color: #4CAF50; /* Verde */
-    color: #fff;
-    padding: 5px 10px;
-    border-radius: 4px;
-    max-width: 80%; /* Ajustado para más espacio */
-    margin: 0 auto;
-    text-align: center;
-}
-
-.btnNotaPersonal,
-.btnPlanTrading {
-    background-color: #4CAF50; /* Verde */
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.2s, transform 0.2s;
-    margin: 10px auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-
-.btnPlanTrading:hover,
-.btnNotaPersonal:hover {
-    background-color: #45a049; /* Verde más oscuro */
-    transform: translateY(-2px);
-}
 
 
 /* -------------------------------------------------------tabla-------------------------------------------------------------------- */
 .tablaDeDatos {
   width: 80%;
+  height: 30px;
   /* margin: 20px auto; Ajuste para centrar la tabla en la página */
   border-collapse: separate;
   border-spacing: 0;
@@ -101,8 +43,8 @@ th:hover {
 button.btn-primary {
   background-color: black; /* Reemplaza "tu-color-preferido" con el color que desees */
   color: #fff; /* Cambia el color del texto si es necesario */
-  margin-top: 25%;
-  margin-left: -670px;
+  margin-top: 11%;
+  margin-left: -0px;
 }
 
 .contenedorDivTabla{
@@ -210,21 +152,6 @@ button.btn-primary {
 }
 
 
-/* -------------------------------------------------------boton logout-------------------------------------------------------------------- */
-.btnLogout {
-  background-color: #090909;
-  color: #fff;
-  padding: 10px 20px;
-  border: solid 1px blue;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.btnLogout:hover {
-  background-color:#0e56c1;
-}
-/* -------------------------------------------------------boton logout-------------------------------------------------------------------- */
 
 
 
@@ -232,8 +159,10 @@ button.btn-primary {
 
 #div_menu_encabezado {
   font-family: 'Courier New', Courier, monospace;
-
+  /* position: fixed; */
+  width: 100%;
   display: flex;
+
   align-items: center;
   padding: 10px;
   background: linear-gradient(to right, rgba(52, 152, 219, 0.4), rgba(8, 2, 73, 0.4));
@@ -303,19 +232,77 @@ button.btn-primary {
 
 .contenedor {
     max-width: 800px;
-    margin: 20px auto;
-    background-color: rgba(233, 244, 211, 0.1);
+    margin: 1% auto;
+    /* margin-left: 1%; */
+    /* margin-right: 2%; */
+    background-color: rgba(9, 10, 9, 0.1);
+    transition: ease 1s;
     padding: 20px;
+    border: solid 1px black;
     border-radius: 10px;
 }
 
+
 .contenedor:hover{
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
-
+  background-color: rgba(9, 10, 9, 0.5);
+  
 }
-/* .nav_item{
-  background-color: #007BFF;
-  border-radius: 50px;
+
+#tarjetas_contenedor {
+  display: flex;
+  flex-wrap: wrap; /* Para que las tarjetas se envuelvan en líneas */
+  justify-content: space-around; /* Para distribuir el espacio entre las tarjetas */
+}
+
+
+#contenedor_plan{
+  display: flex;
+
+  max-width: 800px;
+  margin: 20px auto;
+  margin-left: 1%;
+  margin-right: 2%;
+  background-color: rgba(252, 255, 252, 0.1);
+  transition: ease 1s;
+  padding: 20px;
+  border: solid 1px black;
+  border-radius: 10px;
+  color: rgb(255, 255, 255);
+}
+
+#contenedor_plan:hover{
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.5);
+  
+}
+
+#contenedor_plan_add{
+  display: none;
+  max-width: 800px;
+  margin: 20px auto;
+  margin-left: 1%;
+  margin-right: 2%;
+  background-color: rgba(252, 255, 252, 0.1);
+  transition: ease 1s;
+  padding: 20px;
+  border: solid 1px black;
+  border-radius: 10px;
+  color: rgb(255, 255, 255);
+}
+
+#contenedor_plan_add:hover{
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.5);
+  
+}
+
+.card-text{
+  margin-left: 3%;
+}
+
+/* .nav_item {
+    color: bisque !important;
 } */
 .objetivosLabel{
   background-color: rgba(76, 175, 80, 0.5); 
@@ -330,8 +317,8 @@ button.btn-primary {
 }
 
 .parrafo_objetivo{
-  color: rgb(0, 0, 0);
-  font-weight: bolder;
+  color: rgb(255, 255, 255);
+  /* font-weight: bolder; */
   margin-bottom: 1px;
 }
 
@@ -369,8 +356,6 @@ button.btn-primary {
   align-items: center;
   justify-content: center;
   transition: background-color 0.2s, transform 0.2s;
-
-  
 }
 
 .boton_guardar_objetivos::before {
@@ -390,9 +375,10 @@ button.btn-primary {
   width: 100%;
   margin-top: 10px;
   border-radius: 5px;
+  color: white;
 }
 
-.dropdown-menu{
+.dropdown-menu {
  background-color: rgba(0, 0, 0, 0.7) !important;
 }
 
@@ -408,11 +394,9 @@ button.btn-primary {
   color: black;
 }
 
-
-
 .resaltar-elemento {
-  border: 2px solid #3498db;
-  background-color:rgba(0, 0, 0, 0.5);
+  border: 2px solid #060707;
+  background-color:rgba(196, 186, 186, 0.5);
   transition: background-color 0.5s ease;
 }
 
@@ -453,8 +437,6 @@ button.btn-primary {
   margin-right: 0px;
   font-size: 14px;
 }
-
-
 
 .boton_guadar_update {
   background-color:rgba(40, 167, 69, 0.3); ; /* Verde */
@@ -510,3 +492,38 @@ button.btn-primary {
 
 
 /* -------------------------------------------------------tarjeta objetivo-------------------------------------------------------------------- */
+
+
+
+
+
+/* -------------------------------------------------------tabla valores actuales moneda -------------------------------------------------------------------- */
+.contenedor_tabla_valores_monedas_binance{
+  margin-top: 1.4%;
+  display: flex;
+  margin-left: 10px;
+  border-radius: 15px;
+  
+}
+
+.tituloEncabezado{
+  border-radius: 15px;
+}
+
+.celdaEncabezado{
+  border-radius: 15px;
+  font-family: monospace !important;
+  font-weight: 100;
+}
+
+.tabla_monedas{
+  background-color: rgba(0, 0, 0, 0.5);
+  color: rgb(27, 24, 0);
+  border: solid 1px  rgba(0, 0, 0, 0);
+  border-radius: 15px;
+}
+
+.filaDatos{
+  color: white;
+}
+

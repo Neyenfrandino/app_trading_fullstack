@@ -186,9 +186,9 @@ function boton_depositar_moneda(nombre_moneda){
                         
                             let moneda_id = element.id
                             let cantidad = input_cantidad_deposito.value
-                        
+                        console.log(moneda_id, cantidad, 'asd')
                         update_usuario_moneda_wallet(moneda_id, cantidad)
-                        location.reload()
+                        // location.reload()
                     }
 
                 });            

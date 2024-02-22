@@ -32,7 +32,7 @@ async function crear_usuario(campos_not_null) {
             mensajeUsuarioCreado.style.display = 'block';
 
             setTimeout(function() {
-                window.location.href = 'http://127.0.0.1:5500/tradind_FE/Index_login.html';
+                window.location.href = 'http://127.0.0.1:5501/tradind_FE/Index_login.html';
                 // console.log('¡Usuario creado con éxito!', response);
             }, 2000)
           
@@ -87,7 +87,7 @@ btn_registrate.addEventListener('click', (event) => {
 function boton_regresar(){
     let boton_regresar = document.getElementById('boton_regresar');
      boton_regresar.addEventListener('click', () => {
-        window.location.href = 'http://127.0.0.1:5500/trading_FE/Index_login.html';
+        window.location.href = 'http://127.0.0.1:5501/trading_FE/Index_login.html';
      })
 }
 

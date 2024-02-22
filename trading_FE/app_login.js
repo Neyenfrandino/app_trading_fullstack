@@ -28,7 +28,7 @@ async function login(auth) {
         localStorage.setItem('user_id', usuario);
 
         if (response.ok) {
-            window.location.href = 'http://127.0.0.1:5500/trading_FE/index.html';
+            window.location.href = 'http://127.0.0.1:5501/trading_FE/index.html';
             // console.log(response.json())
         }
 
@@ -108,7 +108,7 @@ function datos_login(){
     btn_create_new_account.addEventListener('click', async (event) => {
         event.preventDefault();
         try{
-            window.location.href = 'http://127.0.0.1:5500/trading_FE/creacion_usuario.html';
+            window.location.href = 'http://127.0.0.1:5501/trading_FE/creacion_usuario.html';
         } catch (error){
             console.log('Error al intentar crear usuario', error)
         }

@@ -69,15 +69,15 @@ async function create_objetivo(datos_input){
 }
 
 async function update_objetivos(datos ,num_objetivo_plan){
-    
     try{
         let token = localStorage.getItem('accessToken');
         let usuario = localStorage.getItem('user_id');
 
         let datos_objetivo = {
-            plan: "",  // Reemplaza con el valor correcto
+            plan: datos['plan'],  // Reemplaza con el valor correcto
             objetivo_principal: datos['objetivo_principal']
         }
+        console.log(datos_objetivo)
 
         if(!token){
             throw new Error('No se encontro el token de acceso')
@@ -144,22 +144,29 @@ class Read_objetivos_FE{
         }
         
     }
-
     agregacion_FE() {
         this.promesa.then((listaDatos) => {
-            // console.log(listaDatos);
             let contador = 0
+            let contenedor = document.createElement('div');
+            contenedor.className = 'contenedor_objetivos'; // Clase para el contenedor
+    
             for (let objetivo of listaDatos) {
                 let parrafo = document.createElement('p');
-                parrafo.className= 'parrafo_objetivo'
+                parrafo.className = 'parrafo_objetivo'
                 parrafo.id = 'parrafo_read'+ contador
                 parrafo.textContent = objetivo.objetivo_principal;
-
-                this.elementos_agregacion.contenedor_objetivos.appendChild(parrafo);
-                contador ++
+    
+                let lineaSeparadora = document.createElement('hr'); // Crear línea separadora
+                lineaSeparadora.style.color = 'white'
+                contenedor.appendChild(parrafo);
+                contenedor.appendChild(lineaSeparadora); // Agregar la línea después del párrafo
+                contador++;
             }
+            // Agregar el contenedor con todos los párrafos y líneas al elemento contenedor existente
+            this.elementos_agregacion.contenedor_objetivos.appendChild(contenedor);
         });
     }
+    
 }
 
 class Add_objetivos{
@@ -195,11 +202,11 @@ class Add_objetivos{
 
         promesa.then((listaDatos) => {
             //  console.log(listaDatos.length)
-                console.log(input.value)
+                // console.log(input.value)
                 boton_guardar.addEventListener('click', () => {
                     if(listaDatos.length < 3 && input.value !== ''){
                         let info_agregado_input = input.value
-                        console.log(info_agregado_input)
+                        // console.log(info_agregado_input)
                         create_objetivo(info_agregado_input)
                         location.reload()
                     }else{
@@ -409,8 +416,8 @@ function boton_activar_desactivar_vista (){
    
 }
 
-
 boton_activar_desactivar_vista()
+
 let read_objetivos = new Read_objetivos_FE(promesa);
 read_objetivos.agregacion_FE()
 
@@ -422,3 +429,134 @@ objetivos_update.update_objetivos()
 
 let eliminar_objetivos = new Delete_objetivo(promesa)
 eliminar_objetivos.delete_objetivo()
+
+
+
+class Read_plan{
+    constructor(promesa){
+        this.promesa = promesa
+        this.elementos_necesarios ={
+            contenedor_plan : document.getElementById('contenedor_plan'),
+            parrafo_plan : document.getElementById("card-text")
+        }
+    }
+
+    async readme_plan(){
+        let tarjetas_contenedor = document.getElementById('tarjetas_contenedor')
+    
+        // Espera a que la promesa se resuelva para obtener los datos
+        let listaDatos = await this.promesa;
+    
+        listaDatos.forEach((element) => {
+            let contenedorTarjetas = document.createElement('div');
+            contenedorTarjetas.className = 'contenedor_plan'
+            if (element.plan != '') {
+                let tarjeta = document.createElement('div');
+                tarjeta.id = 'contenedor_plan'
+                tarjeta.classList.add('card', 'mb-3');
+                tarjeta.style.maxWidth = '600px';
+    
+                let row = document.createElement('div');
+                row.classList.add('row', 'g-0');
+    
+                let colImg = document.createElement('div');
+                colImg.classList.add('col-md-4');
+    
+                let img = document.createElement('img');
+                img.src = 'img/stickies-2852375_1920.jpg';
+                img.classList.add('img-fluid', 'rounded-start');
+                img.alt = '...';
+    
+                colImg.appendChild(img);
+                row.appendChild(colImg);
+    
+                let colContent = document.createElement('div');
+                colContent.classList.add('col-md-8');
+    
+                let cardBody = document.createElement('div');
+                cardBody.classList.add('card-body');
+    
+                let cardTitle = document.createElement('h5');
+                cardTitle.classList.add('card-title');
+                cardTitle.textContent = 'Plan de acción...';
+    
+                let cardText = document.createElement('p');
+                cardText.classList.add('card-text');
+                cardText.textContent = element.plan;
+    
+                cardBody.appendChild(cardTitle);
+                cardBody.appendChild(cardText);
+                colContent.appendChild(cardBody);
+                row.appendChild(colContent);
+    
+                tarjeta.appendChild(row);
+                contenedorTarjetas.appendChild(tarjeta);
+                tarjetas_contenedor.appendChild(contenedorTarjetas)
+            }
+        });
+    }
+    
+    
+}
+
+let read_plan = new Read_plan(promesa)
+read_plan.readme_plan() 
+
+
+class Add_plan{
+    constructor(promesa){
+        this.promesa = promesa;
+        this.elementos_necesarios = {
+            boton_add_plan : document.getElementById('boton_add_plan'),
+            contenedor_plan : document.getElementById('contenedor_plan_add'),
+            parrafo_plan : document.getElementById("card-text")
+            
+        }
+    }
+
+    add_plan(){
+        let boton_plan = this.elementos_necesarios.boton_add_plan; 
+        
+        boton_plan.addEventListener('click', () =>{
+            console.log('ffucina ')
+            let parrafos_objetivo = document.querySelectorAll(".parrafo_objetivo")
+            let update_plan_object = {}
+            let id_update;
+    
+            parrafos_objetivo.forEach((element) =>{
+                element.addEventListener('click', async (event) => {
+                    let parrafoClickeado = event.currentTarget;
+                    let indiceFilaClickeada = Array.from(parrafos_objetivo).indexOf(parrafoClickeado);
+                    console.log(parrafoClickeado.textContent)
+    
+                    let listaDatos = await this.promesa; // Esperar a que la promesa se resuelva
+                    let id_update_data = listaDatos[indiceFilaClickeada].id;
+                    id_update = id_update_data
+                    update_plan_object['objetivo_principal'] = parrafoClickeado.textContent
+    
+                    let contenedor_plan = this.elementos_necesarios.contenedor_plan;
+                    contenedor_plan.className = 'contenedor_plan'
+                    let parrafo_plan = this.elementos_necesarios.parrafo_plan
+                    parrafo_plan.contentEditable = true
+                    contenedor_plan.style.display = 'block'
+    
+                    let boton_guardar_plan = document.createElement('button')
+                    boton_guardar_plan.textContent = 'guardar'
+                    boton_guardar_plan.addEventListener('click',async () =>{
+                        console.log(parrafo_plan.textContent)
+                        update_plan_object['plan'] = parrafo_plan.textContent
+    
+                        await update_objetivos(update_plan_object, id_update);                
+    
+                    })
+    
+                    contenedor_plan.appendChild(boton_guardar_plan)
+                })
+            })            
+        })
+    }
+    
+}
+
+let plan_add = new Add_plan(promesa)
+plan_add.add_plan()

@@ -121,22 +121,31 @@ function insert_data_estadisticas_card(){
     console.log(data)
 
     let titulo_ganancias_totales = document.createElement('h5');
-    titulo_ganancias_totales.textContent = 'Gagancias';
+    titulo_ganancias_totales.textContent = 'Gagancias:';
 
     let titulo_promedio = document.createElement('h5');
-    titulo_promedio.textContent = 'Promedio'
+    titulo_promedio.textContent = 'Promedio sobre ganancias:'
+
+    let titulo_pocentaje = document.createElement('h5');
+    titulo_pocentaje.textContent = 'Porcentaje sobre total billetera:'
+
 
 
     let lista_ganancias = document.createElement('ul')
     let lista_promedio = document.createElement('ul')
+    let lista_porcentaje = document.createElement('ul')
 
       let listItem = document.createElement('li')
-      listItem.textContent = `$${data.total_resultados_usdt_db}USDT`
+      listItem.textContent = `$${data.total_resultados_usdt_db} USDT`
       lista_ganancias.appendChild(listItem)
 
       let listaItem = document.createElement('li')
-      listaItem.textContent = `$${data.promedio_resultados_usdt_db}USDT`
+      listaItem.textContent = `$${data.promedio_resultados_usdt_db} USDT x entrada`
       lista_promedio.appendChild(listaItem)
+
+      let listaItems = document.createElement('li')
+      listaItems.textContent = `%${data['porcentaje_total_ganancias']['Porcentaje total de ganancias']}`
+      lista_porcentaje.appendChild(listaItems)
 
       card[1].appendChild(titulo_ganancias_totales)
       card[1].appendChild(lista_ganancias)
@@ -144,10 +153,10 @@ function insert_data_estadisticas_card(){
       card[1].appendChild(titulo_promedio)
       card[1].appendChild(lista_promedio)
 
-
+      card[1].appendChild(titulo_pocentaje)
+      card[1].appendChild(lista_porcentaje)
+      
     })
-
-
 }
 
 insert_data_estadisticas_card()
