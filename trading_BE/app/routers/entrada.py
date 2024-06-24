@@ -11,29 +11,25 @@ from app.oauth import get_current_user
 router = APIRouter(prefix='/entrada', 
                    tags=['Entrada'])
 
-# Ruta de ejemplo
-# @router.get('/ruta1')
-# def ruta1():
-#     return {'message': 'Hola Mundo'}
-
-@router.get('/user_id/{user_id}')
-def obtener_entradas_id(user_id: int, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    data = entrada.obtener_entradas_por_id(user_id, db)
-    return data 
-    pass
-
-@router.post('/add/user_id/{user_id}', status_code=status.HTTP_201_CREATED)
-def add_entrada(user_id:int, modelo:Entrada, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    respuesta = entrada.add_entrada(user_id, modelo, db)
-    return respuesta
 
 
-@router.patch('/modificar_entradas/{user_id}/{num_entrada}')
-def actualizar_entrada(user_id: int, num_entrada:int, UpdateEntrada: UpdateEntrada, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    respuesta = entrada.actualizar_entrada(user_id, num_entrada, UpdateEntrada, db)
-    return respuesta
+@router.get('/get_entry_user_all/{user_id}', status_code=status.HTTP_200_OK)
+def get_entry_user_all(user_id: int, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    response = entrada.get_entry_user_all(user_id, db)
+    return response 
 
-@router.delete('/eliminar_entrada/{user_id}/{num_entrada}')
-def eliminar_entrada(user_id: int, num_entrada: int, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    respuesta = entrada.eliminar_entrada(user_id,num_entrada, db)
-    return respuesta
+@router.post('/add_entry', status_code=status.HTTP_201_CREATED)
+def add_entry(user_id:int, modelo:Entrada, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    response = entrada.add_entry(user_id, modelo, db)
+    return response
+
+
+@router.patch('/update_entry', status_code=status.HTTP_200_OK)
+def update_entry(user_id: int, id_entry:int, UpdateEntrada: UpdateEntrada, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    response = entrada.update_entry(user_id, id_entry, UpdateEntrada, db)
+    return response
+
+@router.delete('/delete_entry', status_code=status.HTTP_200_OK)
+def delete_entry(user_id: int, id_entry : int, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    response = entrada.delete_entry(user_id, id_entry, db)
+    return response

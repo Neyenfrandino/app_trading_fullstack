@@ -11,12 +11,10 @@ class User(BaseModel):
     password: str
     fecha_nacimiento: date 
     correo: str
-    nacionalidad: Optional[str]
     creacion_user: datetime=datetime.now() 
 
 
 class Capital(BaseModel):
-    usuario_id:int
     capital_usdt:float
     fecha_creacion:datetime=datetime.now()
 
@@ -28,14 +26,12 @@ class Nota_personal(BaseModel):
 
 
 class Objetivo_plan(BaseModel):
-    usuario_id:int
     objetivo_principal:str
     plan:str
     creacion_user: datetime=datetime.now() 
 
       
 class Entrada(BaseModel):
-    objetivos_plan_id:int
     moneda_id:int
     punto_entrada:float
     stop_loss:float
@@ -43,7 +39,7 @@ class Entrada(BaseModel):
     riesgo_beneficio: float
     lotage: float
     resultado_usdt: float
-    compra_venta: float
+    compra_venta: bool
     fecha_creacion:datetime=datetime.now()
 
 
@@ -55,11 +51,10 @@ class Usuario_moneda(BaseModel):
 class Moneda(BaseModel):
     nombre:str
     codigo:str
-    ruta_img:str
+    # ruta_img:str
 
 class Consejos_diarios(BaseModel):
     consejo:str
-    fecha_creacion:datetime=datetime.now()
 
 class User_id(BaseModel):
     id: int 
@@ -72,14 +67,10 @@ class UpdateUser(BaseModel):
     password: str = None
     fecha_nacimiento: datetime = None 
     correo: str = None
-    nacionalidad: Optional[str] = None
 
 
 class upDateCapital(BaseModel):
     capital_usdt : float = None
-
-class UpdateNota_personal(BaseModel):
-    nota:str = None
 
 
 class UpdateObjetivoPlan(BaseModel):

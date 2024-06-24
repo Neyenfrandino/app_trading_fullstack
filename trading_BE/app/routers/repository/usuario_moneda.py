@@ -1,64 +1,110 @@
 #Aqui van las funciones 
 from sqlalchemy.orm import Session
 from app.db import models
-from app.schemas import Usuario_moneda
 from fastapi import HTTPException, status
-from sqlalchemy.orm import joinedload
-from app.schemas import Entrada, UpdateEntrada
 
 
-def obtener_cantidad_moneda(user_id, db:Session):
-    # usuario = db.query()
-    data = db.query(models.UsuarioMoneda).filter(models.UsuarioMoneda.usuario_id == user_id).all()
-    return data
+def get_data_wallet(user_id, db:Session):
+    data_user_true = db.query(models.UsuarioMoneda).filter(models.UsuarioMoneda.usuario_id == user_id).all()
 
+    if not data_user_true:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail={"message": "Usuario no encontrado"})
     
-def add_cantidad_moneda(user_id, modelo, db:Session):
-    usuario = db.query(models.User).filter(models.User.id == user_id).first()
-    
-    if not usuario:
+    return data_user_true
+
+def add_coin_wallet_user(user_id, id_money, UpdateCantidadMoneda, db: Session):
+    user_true = db.query(models.User).filter(models.User.id == user_id).first()
+
+    if not user_true:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail={"message": "Usuario no encontrado"})
     
-    add_cant_moneda = dict(modelo)
-    # count_moneda = db.query(models.UsuarioMoneda).filter(models.UsuarioMoneda.usuario_id == usuario.id,
-    #                                                      models.UsuarioMoneda.moneda_id == add_cant_moneda['moneda_id']).count()
-    # entradas_usuario = db.query(models.Entrada).filter(models.Entrada.usuario_id == user_id).all()
-    # Extraer las IDs de las monedas de las entradas del usuario
-    # monedas_ids_usuario = [entrada.moneda_id for entrada in entradas_usuario]
-    # print(monedas_ids_usuario)
+    try:
+        capital_in_usdt_true = db.query(models.Capital).filter(models.Capital.usuario_id == user_id).first()
+        money_true = db.query(models.UsuarioMoneda).filter(models.UsuarioMoneda.moneda_id == id_money).filter(
+            models.UsuarioMoneda.usuario_id == user_id).first()
 
-    # if count_moneda < 1:
-    nuevo_valor = models.UsuarioMoneda(
-        usuario_id = usuario.id,
-        moneda_id = add_cant_moneda["moneda_id"],
-        cantidad = add_cant_moneda['cantidad']
-    )
-    db.add(nuevo_valor)
-    db.commit()
-    db.refresh(nuevo_valor)
-    return{'Message': 'Se ha agregado correctamente'}  
-    # return{'Message': 'Solo se puede agragar una ves cada moneda'}  
+        if money_true:
+            return {'Message': 'Ya existe una moneda en la wallet'} 
+        else:
+            if capital_in_usdt_true.capital_usdt >= UpdateCantidadMoneda.cantidad:
+                    capital_in_usdt_true.capital_usdt -= UpdateCantidadMoneda.cantidad
+
+                    db.commit()
+                    db.refresh(capital_in_usdt_true)  # Refresh the instance to get updated data from the database
+
+                    new_money = models.UsuarioMoneda(usuario_id=user_id, moneda_id=id_money, cantidad_moneda=UpdateCantidadMoneda.cantidad)
+                    db.add(new_money)
+                    db.commit()
+                    db.refresh(new_money)
+                    
+                    money_true.cantidad_moneda += UpdateCantidadMoneda.cantidad
+                    db.commit()
+                    db.refresh(money_true)
+                    return {'Message': 'Se ha actualizado correctamente'}
+
+    except Exception as e:
+        return {'Message': str(e)}
 
 
-def actualizar_cantidad_moneda(user_id, num_moneda, UpdateCantidadMoneda, db: Session):
-    usuario = db.query(models.User).filter(models.User.id == user_id).first()
+def add_moneda(user_id, id_money, UpdateCantidadMoneda, db: Session):
+    user_true = db.query(models.User).filter(models.User.id == user_id).first()
 
-    if not usuario:
+    if not user_true:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail={"message": "Usuario no encontrado"})
-    moneda = db.query(models.UsuarioMoneda).filter(models.UsuarioMoneda.moneda_id == num_moneda).first()
     
-    # print(UpdateCantidadMoneda['cantidad'], 'jajaj')
-    # print(moneda.cantidad)
-    if moneda:
-        # if UpdateCantidadMoneda and 'cantidad' in UpdateCantidadMoneda:
-        #     moneda.cantidad = UpdateCantidadMoneda['cantidad']
-        if UpdateCantidadMoneda and hasattr(UpdateCantidadMoneda, 'cantidad'):
-            moneda.cantidad += UpdateCantidadMoneda.cantidad
 
-        db.commit()
-        return {"message": "actualizacion exitosa"}
+    capital_in_usdt_true = db.query(models.Capital).filter(models.Capital.usuario_id == user_id).first()
+    money_true = db.query(models.UsuarioMoneda).filter(models.UsuarioMoneda.moneda_id == id_money).filter(
+        models.UsuarioMoneda.usuario_id == user_id).first()
 
-        
-    raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail={"message": "Moneda no encontrada para el usuario"})
+    if money_true and capital_in_usdt_true.capital_usdt >= UpdateCantidadMoneda.cantidad:
 
+        try:
+            capital_in_usdt_true.capital_usdt -= UpdateCantidadMoneda.cantidad
+
+            db.commit()
+            db.refresh(capital_in_usdt_true)  # Refresh the instance to get updated data from the database
+
+            if money_true:
+                money_true.cantidad_moneda += UpdateCantidadMoneda.cantidad
+                db.commit()
+                db.refresh(money_true)
+                return {'Message': 'Se ha actualizado correctamente'}
+
+     
+        except Exception as e:
+            return {'Message': str(e)}
+    else:
+        print('no tiene suficiente capital')
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail={"message": "La moneda no existe o no tiene suficiente capital"})
+
+def subtract_coin(user_id, id_money, UpdateCantidadMoneda, db: Session):
+    user_true = db.query(models.User).filter(models.User.id == user_id).first()
+
+    if not user_true:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail={"message": "Usuario no encontrado"})
+    
+    capital_in_wallet_true = db.query(models.UsuarioMoneda).filter(models.UsuarioMoneda.usuario_id == user_id).filter(
+        models.UsuarioMoneda.moneda_id == id_money).first()
+    
+    capital_in_usdt_true = db.query(models.Capital).filter(models.Capital.usuario_id == user_id).first()
+
+    
+    if capital_in_wallet_true and capital_in_wallet_true.moneda_id == id_money:
+        if capital_in_wallet_true.cantidad_moneda >= UpdateCantidadMoneda.cantidad:
+            try:
+                capital_in_wallet_true.cantidad_moneda -= UpdateCantidadMoneda.cantidad
+                db.commit()
+                db.refresh(capital_in_wallet_true)
+
+                capital_in_usdt_true.capital_usdt += UpdateCantidadMoneda.cantidad
+                db.commit()
+                db.refresh(capital_in_usdt_true)            
+            except Exception as e:
+                return {'Message': str(e)}
+
+            return {'Message': 'Se ha actualizado correctamente'}
+    
+    else:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail={"message": "No una moneda agregada."})
     

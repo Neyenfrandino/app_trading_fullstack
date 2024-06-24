@@ -12,30 +12,23 @@ router = APIRouter(prefix='/moneda',
                    tags=['Moneda'])
 
 
-
-# Ruta de ejemplo
-# @router.get('/ruta1')
-# def ruta1():
-#     return {'message': 'Hola Mundo'}
-
-
-@router.get('/')
-def obtener_moneda(db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    data = moneda.obtener_moneda(db)
-    return data 
+@router.get('/get_money_all', status_code=status.HTTP_200_OK) 
+def get_money_all(db:Session = Depends(get_db)):
+    response = moneda.get_money_all(db)
+    return response 
 
 
-@router.post('/user_id', status_code=status.HTTP_201_CREATED)
-def add_moneda(modelo:Moneda, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    respuesta = moneda.add_moneda(modelo, db)
-    return respuesta
+@router.post('/add_money', status_code=status.HTTP_201_CREATED)
+def add_money(modelo:Moneda, user_id: int, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    response = moneda.add_money(user_id, modelo, db)
+    return response
 
-@router.patch('/user_id /codigo_moneda')
-def actualizar_moneda(codigo_moneda:str, modelo:Moneda, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    respuesta = moneda.actualizar_moneda(codigo_moneda, modelo, db)
-    return respuesta
+@router.patch('/update_money', status_code=status.HTTP_200_OK)
+def update_money(codigo_moneda:str, user_id: int, modelo:Moneda, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    response = moneda.update_money(codigo_moneda, user_id, modelo, db)
+    return response
 
-@router.delete('/codigo_moneda')
-def eliminar_moneda(codigo_moneda: str, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    respuesta = moneda.eliminar_moneda(codigo_moneda, db)
-    return respuesta
+@router.delete('/delete_money', status_code=status.HTTP_200_OK)
+def delete_money(codigo_moneda: str, user_id: int, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    response = moneda.delete_money(codigo_moneda, user_id, db)
+    return response

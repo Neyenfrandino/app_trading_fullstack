@@ -13,27 +13,25 @@ router = APIRouter(prefix='/usuario_moneda',
                    tags=['Usuario_moneda'])
 
 
-# #Api de inicio de un nuevo lenguaje
-# @router.get('/ruta1')
-# def ruta1():
-#     return {'Hola Mundo'}
+@router.get('/get_data_wallet')
+def get_data_wallet(user_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    response = usuario_moneda.get_data_wallet(user_id, db)
+    return response
+
+@router.post('/add_coin_wallet_user')
+def add_coin_wallet_user(user_id: int, id_modey:int, UpdateCantidadMoneda: UpdateCantidadMoneda, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    response = usuario_moneda.add_coin_wallet_user(user_id, id_modey, UpdateCantidadMoneda, db)
+    return response
 
 
-@router.get('/get_datos_wallet/{user_id}')
-def obtener_cantidad_moneda(user_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    data = usuario_moneda.obtener_cantidad_moneda(user_id, db)
-    return data
+@router.patch('/add_moneda')
+def add_moneda(user_id: int, id_modey:int, UpdateCantidadMoneda: UpdateCantidadMoneda, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    response = usuario_moneda.add_moneda(user_id, id_modey, UpdateCantidadMoneda, db)
+    return response
 
-#Creamos una api donde vamos a agregar por el momento los usuarios a una lista 
-@router.post('/crear_usuario_moneda/{user_id}', status_code=status.HTTP_201_CREATED)
-def add_cantidad_moneda(user_id, modelo: Usuario_moneda, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    respuesta = usuario_moneda.add_cantidad_moneda(user_id, modelo, db)
-    return respuesta
-    # pass
-
-@router.patch('/update_moneda/{user_id}/{num_moneda}')
-def actualizar_cantidad_moneda(user_id: int, num_moneda:int, UpdateCantidadMoneda: UpdateCantidadMoneda, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    respuesta = usuario_moneda.actualizar_cantidad_moneda(user_id, num_moneda, UpdateCantidadMoneda, db)
-    return respuesta
+@router.patch('/subtract_coin')
+def subtract_coin(user_id: int, id_modey:int, UpdateCantidadMoneda: UpdateCantidadMoneda, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    response = usuario_moneda.subtract_coin(user_id, id_modey, UpdateCantidadMoneda, db)
+    return response
     
 

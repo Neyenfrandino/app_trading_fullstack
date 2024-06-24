@@ -4,14 +4,29 @@ from app.db import models
 from fastapi import HTTPException, status
 
 
-def obtener_consejos(db:Session):
-    data = db.query(models.ConsejosDiarios).all()
+def get_daily_items(user_id ,db:Session):
+    user_true = db.query(models.User).filter(models.User.id == user_id).first()
+    if not user_true:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
+                            detail={"message": "Usuario no encontrado"})
+    
+    all_data= db.query(models.ConsejosDiarios).all()
+
+    if all_data:
+        data = []
+        for item in all_data:
+            data.append(item.consejo)
+
     return data
 
-def add_consejo(modelo, db:Session):    
-    dict_modelo_consejo =  dict(modelo) 
+def add_daily_items(user_id, modelo, db:Session):  
+    user_true = db.query(models.User).filter(models.User.id == user_id).first()
+    if not user_true:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
+                            detail={"message": "Usuario no encontrado"})
+    
     nuevo_consejo= models.ConsejosDiarios(
-        consejo = dict_modelo_consejo['consejo']
+        consejo = modelo.consejo
     )
     db.add(nuevo_consejo)
     db.commit()
@@ -19,22 +34,33 @@ def add_consejo(modelo, db:Session):
     return{'Message': 'Consejo agregado correctamente'}
 
 
-def actualizar_consejo(num_consejo, modelo, db: Session):    
-    nota = db.query(models.ConsejosDiarios).filter(models.ConsejosDiarios.id == num_consejo).first()
-    if nota:
-        dict_modelo_consejo =  dict(modelo) 
-        nota.consejo =  dict_modelo_consejo['consejo'] 
-        
-        db.commit()
-        return {"message": "Consejo actualizado exitosamente"}
-    else:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, 
-                            detail={"message": "Consejo no encontrado"} ) 
+def update_daily_items(user_id: int, id_consejo: int, modelo, db: Session):   
+    user_true = db.query(models.User).filter(models.User.id == user_id).first()
+    if not user_true:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, 
+            detail={"message": "Usuario no encontrado"}
+        )
+    
+    consejo_true = db.query(models.ConsejosDiarios).filter(models.ConsejosDiarios.id == id_consejo).first()
+    if not consejo_true:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT, 
+            detail={"message": "Consejo no encontrado"}
+        )
+
+    consejo_true.consejo = modelo.consejo
+    db.commit()
+    return {"message": "Consejo actualizado exitosamente"}
 
 
-
-def eliminar_consejo(num_consejo, db:Session):
-    consejo = db.query(models.ConsejosDiarios).filter(models.ConsejosDiarios.id == num_consejo).first()
+def eliminar_consejo( user_id, id_consejo: int, db:Session):
+    user_true = db.query(models.User).filter(models.User.id == user_id).first()
+    if not user_true:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
+                            detail={"message": "Usuario no encontrado"})
+    
+    consejo = db.query(models.ConsejosDiarios).filter(models.ConsejosDiarios.id == id_consejo).first()
 
     if not consejo:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, 

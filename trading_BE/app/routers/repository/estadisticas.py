@@ -139,9 +139,6 @@ def procentaje_ganancias_x_moneda(user_id, db: Session):
     billetera_cantidad = db.query(models.UsuarioMoneda).filter(models.UsuarioMoneda.usuario_id == usuario.id).all()
 
    
-
-
-
     for i in billetera_cantidad:
         print(i.moneda_id)
         total_entradas_x_moneda = db.query(

@@ -2,7 +2,8 @@ from sqlalchemy.orm import Session
 from app.db import models
 from fastapi import HTTPException, status
 
-def actualizar_capital(user_id, upDateCapital, db: Session):
+def update_capital(user_id, upDateCapital, db: Session):
+    
     usuario = db.query(models.User).filter(models.User.id == user_id).first()
     capital = db.query(models.Capital).filter(models.Capital.usuario_id == user_id).first()
 
@@ -30,7 +31,6 @@ def add_capital(capital, user_id, db:Session):
                             detail={"message": "El usuario no existe"} )
     
     count_usuario = db.query(models.Capital).filter(models.Capital.usuario_id == usuario.id).count()
-    print(count_usuario)
 
     if count_usuario < 1:
         data = dict(capital)
@@ -47,9 +47,13 @@ def add_capital(capital, user_id, db:Session):
                             detail={'Message': 'Ya tiene capital agregado, debes editarlo'})
 
 
-def obtener_capital(db):
-    data = db.query(models.Capital).all()
-    return data
+def get_capital(user_id, db: Session):
+    user_true = db.query(models.Capital).filter(models.Capital.usuario_id == user_id).first()
+
+    if not user_true:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
+                            detail={"message": "No existe capital para el usuario"})
+    return user_true
 
 
 

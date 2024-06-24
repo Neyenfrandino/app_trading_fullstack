@@ -3,10 +3,11 @@ from sqlalchemy.orm import Session
 from app.db import models
 from fastapi import HTTPException, status
 
-def obtener_objetivo_plan(user_id, db):
-    # data  = db.query(models.ObjetivoPlan).all()
+def get_target(user_id, db):
     data  = db.query(models.ObjetivoPlan).filter(models.ObjetivoPlan.usuario_id == user_id).all()
-
+    if not data:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
+                            detail={"message": "No existe objetivo para el usuario"})
     return data
     
 
@@ -35,18 +36,18 @@ def add_objetivo(user_id, modelos, db:Session):
 
 
 
-def actualizar_objetivo_plan(user_id, num_objetivo_plan, UpdateObjetivoPlan, db: Session):
+def update_target(user_id, id_target_plan, UpdateObjetivoPlan, db: Session):
     usuario = db.query(models.User).filter(models.User.id == user_id).first()
 
     if not usuario:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail={"message": "Usuario no encontrado"})
 
     
-    nota = db.query(models.ObjetivoPlan).filter(models.ObjetivoPlan.id == num_objetivo_plan).first()
+    filter_target_id_user = db.query(models.ObjetivoPlan).filter(models.ObjetivoPlan.id == id_target_plan).first()
   
-    if nota:
-        nota.plan = UpdateObjetivoPlan.plan
-        nota.objetivo_principal = UpdateObjetivoPlan.objetivo_principal
+    if filter_target_id_user:
+        filter_target_id_user.plan = UpdateObjetivoPlan.plan
+        filter_target_id_user.objetivo_principal = UpdateObjetivoPlan.objetivo_principal
         db.commit()
         return {"message": "actualizacion exitosa"}
     
@@ -55,17 +56,17 @@ def actualizar_objetivo_plan(user_id, num_objetivo_plan, UpdateObjetivoPlan, db:
     
    
     
-def eliminar_objetivo_plan(user_id, num_objetivo_delete, db:Session):
-    usuario = db.query(models.User).filter(models.User.id == user_id)
+# def eliminar_objetivo_plan(user_id, num_objetivo_delete, db:Session):
+#     usuario = db.query(models.User).filter(models.User.id == user_id)
 
-    if not usuario.first():
-        return {'Message': 'no encontrada'}
+#     if not usuario.first():
+#         return {'Message': 'no encontrada'}
     
-    nota = db.query(models.ObjetivoPlan).filter(models.ObjetivoPlan.id == num_objetivo_delete).first()
-    print(nota)
+#     nota = db.query(models.ObjetivoPlan).filter(models.ObjetivoPlan.id == num_objetivo_delete).first()
+#     print(nota)
 
-    if nota:
-        # nota.delete(synchronize_session=False)
-        db.delete(nota)
-        db.commit() 
-        return {'Message': 'Se ha eliminado correctamente'}
+#     if nota:
+#         # nota.delete(synchronize_session=False)
+#         db.delete(nota)
+#         db.commit() 
+#         return {'Message': 'Se ha eliminado correctamente'}

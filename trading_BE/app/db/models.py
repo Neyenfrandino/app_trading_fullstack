@@ -1,12 +1,9 @@
 from app.db.database import Base
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, Float, Date
-from sqlalchemy.schema import ForeignKey
-
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, Float, Date, ForeignKey
 from sqlalchemy.orm import relationship
 from datetime import datetime
 
 
-# Aquí estamos creando los modelos de las tablas que vamos a agregar luego a la base de datos.
 class User(Base):
     __tablename__ = 'usuarios'
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -16,15 +13,27 @@ class User(Base):
     password = Column(String, nullable=False)
     fecha_nacimiento = Column(Date, nullable=False)
     correo = Column(String, nullable=False, unique=True)
-    nacionalidad = Column(String, nullable=True)
     fecha_creacion = Column(DateTime, default=datetime.now, onupdate=datetime.now)
 
-
     capitales = relationship('Capital', back_populates='usuario')
-    nota_personal = relationship('NotaPersonal', back_populates='usuario')
     objetivo_plan = relationship('ObjetivoPlan', back_populates='usuario')
     entradas = relationship('Entrada', back_populates='usuario')
-    usuario_monedas = relationship('UsuarioMoneda', back_populates='usuario')  # Corregido el nombre de la relación
+    monedas_asignadas = relationship('UsuarioMoneda', back_populates='usuario')
+
+
+class UsuarioMoneda(Base):
+    # Esto seria la wallet del usuario. 
+    __tablename__ = 'usuario_moneda'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    usuario_id = Column(Integer, ForeignKey('usuarios.id'))
+    moneda_id = Column(Integer, ForeignKey('moneda.id'))
+
+    # Aqui se asigna la cantidad de monedas que se le asignaron a un usuario. 
+    # ( Es la cantidad de monedas, correspondiente a la cantidad de usdt asignadas a la modena especificada por el usuario)
+    cantidad_moneda = Column(Integer) 
+
+    usuario = relationship('User', back_populates='monedas_asignadas')
+    moneda = relationship('Moneda', back_populates='usuarios_asignados')
 
 
 class Capital(Base):
@@ -37,16 +46,6 @@ class Capital(Base):
     usuario = relationship('User', back_populates='capitales')
 
 
-class NotaPersonal(Base):
-    __tablename__ = 'nota_personal'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    usuario_id = Column(Integer, ForeignKey('usuarios.id'))
-    nota = Column(String, nullable=False)
-    fecha_creacion = Column(DateTime, default=datetime.now, onupdate=datetime.now)
-
-    usuario = relationship('User', back_populates='nota_personal')
-
-
 class ObjetivoPlan(Base):
     __tablename__ = 'objetivo_plan'
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -56,14 +55,12 @@ class ObjetivoPlan(Base):
     fecha_creacion = Column(DateTime, default=datetime.now, onupdate=datetime.now)
 
     usuario = relationship('User', back_populates='objetivo_plan')
-    entradas = relationship('Entrada', back_populates='objetivo_plan')
 
 
 class Entrada(Base):
     __tablename__ = 'entrada'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    objetivos_plan_id = Column(Integer, ForeignKey('objetivo_plan.id'))
-    usuario_id = Column(Integer, ForeignKey('usuarios.id'))  # Asegúrate de agregar esto
+    usuario_id = Column(Integer, ForeignKey('usuarios.id'))
     moneda_id = Column(Integer, ForeignKey('moneda.id'))
     punto_entrada = Column(Float, nullable=False)
     stop_loss = Column(Float, nullable=False)
@@ -73,30 +70,19 @@ class Entrada(Base):
     resultado_usdt = Column(Float, nullable=False)
     compra_venta = Column(Boolean, nullable=False)
     fecha_creacion = Column(DateTime, default=datetime.now, onupdate=datetime.now)
-    
+
     usuario = relationship('User', back_populates='entradas')
-    objetivo_plan = relationship('ObjetivoPlan', back_populates='entradas')
+    moneda = relationship('Moneda', back_populates='entradas')
 
 
-class UsuarioMoneda(Base):
-    __tablename__ = 'usuarioMoneda'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    usuario_id = Column(Integer, ForeignKey('usuarios.id'), nullable=False)
-    moneda_id = Column(Integer, ForeignKey('moneda.id'), nullable=False)
-    cantidad = Column(Float, nullable=False)
-
-    usuario = relationship('User', back_populates='usuario_monedas')
-    moneda = relationship("Moneda", back_populates="usuario_monedas")  # Corregido el nombre de la relación
-
-# En la clase Moneda
 class Moneda(Base):
     __tablename__ = 'moneda'
     id = Column(Integer, primary_key=True, autoincrement=True)
     nombre = Column(String, nullable=False)
     codigo = Column(String, nullable=False)
-    ruta_img = Column(String)
 
-    usuario_monedas = relationship("UsuarioMoneda", back_populates="moneda")
+    usuarios_asignados = relationship('UsuarioMoneda', back_populates='moneda')
+    entradas = relationship('Entrada', back_populates='moneda')  #
 
 
 class ConsejosDiarios(Base):
@@ -104,11 +90,3 @@ class ConsejosDiarios(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     consejo = Column(String, nullable=False)
     fecha_creacion = Column(DateTime, default=datetime.now, onupdate=datetime.now)
-
-
-
-
-
-
-
-

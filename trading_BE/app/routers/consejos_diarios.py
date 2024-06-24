@@ -11,29 +11,24 @@ from app.oauth import get_current_user
 router = APIRouter(prefix='/consejos_diarios',
                    tags=['ConsejosDiarios'])
 
-#Api de inicio de un nuevo lenguaje
-# @router.get('/')
-# def ruta1():
-#     return {'Hola Mundo'}
+@router.get('/get_daily_items', status_code=status.HTTP_200_OK)
+def get_daily_items(user_id:int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    response = consejos_diarios.get_daily_items(user_id, db)
+    return response
 
-@router.get('/')
-def obtener_consejos(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    data = consejos_diarios.obtener_consejos(db)
-    return data
+@router.post('/add_daily_items', status_code=status.HTTP_201_CREATED)
+def add_daily_items(user_id:int, modelo:Consejos_diarios, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    response = consejos_diarios.add_daily_items(user_id, modelo, db)
+    return response
 
-@router.post('/', status_code=status.HTTP_201_CREATED)
-def add_consejo(modelo:Consejos_diarios, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    respuesta = consejos_diarios.add_consejo(modelo, db)
-    return respuesta
+@router.patch('/update_daily_items', status_code=status.HTTP_200_OK)
+def update_daily_items(user_id:int, id_consejo:int, modelo:Consejos_diarios, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    response = consejos_diarios.update_daily_items(user_id, id_consejo, modelo, db)
+    return response
 
-@router.patch('/num_consejo')
-def actualizar_entrada(num_entrada:int,modelo:Consejos_diarios, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    respuesta = consejos_diarios.actualizar_consejo(num_entrada,modelo, db)
-    return respuesta
-
-@router.delete('/num_entrada')
-def eliminar_consejo(num_entrada: int, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    respuesta = consejos_diarios.eliminar_consejo(num_entrada, db)
-    return respuesta
+@router.delete('/delete_daily_items', status_code=status.HTTP_200_OK)
+def delete_daily_items(user_id:int, id_consejo: int, db:Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    response = consejos_diarios.delete_daily_items(user_id ,id_consejo, db)
+    return response
 
 

@@ -5,16 +5,26 @@ from datetime import datetime
 from fastapi import HTTPException, status
 
 
-def obtener_moneda(db:Session):
-    data  = db.query(models.Moneda).all()
-    return data
+def get_money_all(db:Session):
+    try:
+        data  = db.query(models.Moneda).all()
+        if data:
+            return data
+        else:
+            return []
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
+                            detail={"message": str(e)})
 
 
-def add_moneda(modelo, db:Session):
-    entrada_data = dict(modelo)
-
+def add_money(user_id, modelo, db: Session):
+    uset_true = db.query(models.User).filter(models.User.id == user_id).first()
+    if not uset_true:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
+                            detail={"message": "Usuario no encontrado"})
+    
     moneda_existente = db.query(models.Moneda).filter(
-        (models.Moneda.nombre == entrada_data['nombre']) | (models.Moneda.codigo == entrada_data['codigo'])
+        (models.Moneda.nombre == modelo.nombre) | (models.Moneda.codigo == modelo.codigo) 
     ).first()
 
     if moneda_existente:
@@ -23,10 +33,11 @@ def add_moneda(modelo, db:Session):
     
 
     nueva_moneda = models.Moneda(
-        nombre = entrada_data['nombre'],
-        codigo = entrada_data['codigo'],
-        ruta_img = entrada_data['ruta_img']
+        nombre = modelo.nombre,
+        codigo = modelo.codigo.upper(),
+        # ruta_img = modelo.ruta_img
     )
+
     db.add(nueva_moneda)
     db.commit()
     db.refresh(nueva_moneda)
@@ -34,7 +45,11 @@ def add_moneda(modelo, db:Session):
     return {'Message': 'Moneda agregada exitosamente!!'}
 
 
-def actualizar_moneda(codigo_moneda, modelo, db: Session):
+def update_money(codigo_moneda, user_id, modelo, db: Session):
+    user_true = db.query(models.User).filter(models.User.id == user_id).first()
+    if not user_true:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
+                            detail={"message": "Usuario no encontrado"})
 
     moneda_existente = db.query(models.Moneda).filter(models.Moneda.codigo == codigo_moneda).first()
 
@@ -43,21 +58,32 @@ def actualizar_moneda(codigo_moneda, modelo, db: Session):
                             detail={"message": "Moneda no encontrada"}) 
     
     moneda_existente.nombre = modelo.nombre
-    moneda_existente.codigo = modelo.codigo
-    moneda_existente.ruta_img = modelo.ruta_img
+    moneda_existente.codigo = modelo.codigo.upper()
+    # moneda_existente.ruta_img = modelo.ruta_img
     db.commit()
     db.refresh(moneda_existente) 
     return {"message": "Moneda actualizada exitosamente"}
 
-def eliminar_moneda(codigo_moneda, db:Session):
-    moneda_existente = db.query(models.Moneda).filter(models.Moneda.codigo == codigo_moneda).first( )
+def delete_money(codigo_moneda, user_id, db:Session):
 
-    if not moneda_existente:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, 
-                            detail={"message": "Moneda no encontrada"}) 
+    try:
+        user_true = db.query(models.User).filter(models.User.id == user_id).first()
+        if not user_true:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
+                                detail={"message": "Usuario no encontrado"})
+        
+        moneda_existente = db.query(models.Moneda).filter(models.Moneda.codigo == codigo_moneda.upper()).first()
+
+        if not moneda_existente:
+            raise HTTPException(status_code=status.HTTP_409_CONFLICT, 
+                                detail={"message": "Moneda no encontrada"}) 
+        
+        db.delete(moneda_existente)
+        db.commit()  
+
+        return {'Message': 'Entrada eliminada correctamente'}
     
-    db.delete(moneda_existente)
-    db.commit()  
-
-    return {'Message': 'Entrada eliminada correctamente'}
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
+                            detail={"message": str(e)})
     
